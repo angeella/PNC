@@ -1,0 +1,843 @@
+---
+title: "Oltre la linearitÃ "
+author: "Angela Andreella"
+institute: "UniversitÃ  Ca' Foscari di Venezia"
+date: "03/10/2022"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+---
+
+
+```{r xaringan-themer, echo = FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#ac0033", white_color = "white", text_color = "black",
+                   code_font_family = "Fira Code",
+ code_font_url = "https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css")
+xaringanExtra::use_logo("logo.png")
+```
+
+
+# PerchÃ¨ non linearitÃ ?
+
+Ã estremamente improbabile che la vera funzione $f(X)$ sia effettivamente lineare in $X$. Nei problemi di regressione, $f(X) = E(Y \mid X)$ sarÃ  tipicamente **non lineare** e **non additiva** in $X$, e rappresentare $f(X)$ con un modello lineare Ã¨:
+
+- **conveniente**: un modello lineare Ã¨ facile da interpretare ed Ã¨ l'approssimazione di Taylor del primo ordine a $f(X)$;
+
+- **necessario**: con $n$ (numero di osservazioni) piccolo e/o $p$ (numero di predittori) grande, un modello lineare potrebbe essere l'unica cosa che riusciamo a stimare senza cadere in overfitting.
+
+Oggi, quindi, rilassiamo l'ipotesi di linearitÃ  cercando di mantenere il piÃ¹ possibile l'interpretabilitÃ :
+
+- semplici estensioni dei modelli lineari come la **regressione polinomiale** e le **funzioni a gradini**;
+
+- approcci piÃ¹ sofisticati come le **_spline_** e i **modelli additivi generalizzati** (GAM).
+
+---
+
+Cominciamo con un esempio:
+
+```{r, echo = FALSE, fig.align = 'center'}
+library(MASS)
+library(ggplot2)
+ggplot(Boston, aes(x = lstat, y = medv) ) +
+   geom_point(size = 2, col = "#ac0033") + theme_classic() +
+  xlab("% di persone con stato socio-economico basso (no istruzione superiore e operai)") + ylab("Valore mediano delle case occupate dai proprietari in 1000 dollari.") + ggtitle("Valori delle abitazioni nei sobborghi di Boston")
+```
+
+---
+
+# Cosa vedremo
+
+1. Regressione polinomiale
+
+2. Funzione a gradini
+
+3. _Spline_ di regressione
+
+4. _Spline_ di lisciamento
+
+5. Modelli additivi generalizzati
+
+---
+class: inverse, center, middle
+
+# Regressione polinomiale
+
+---
+
+# Regressione polinomiale
+
+La **regressione polinomiale** estende il modello lineare aggiungendo altri predittori, ottenuti elevando ciascuno dei predittori originali a una **potenza**:
+
+$$ Y = \beta_0 + \beta_1 X + \beta_2 X^2 + \dots + \beta_d X^d + \epsilon$$
+dove $d$ Ã¨ il **grado** della funzione polinomiale. 
+
+- In generale, Ã¨ insolito utilizzare ordini superiori a $3$ o $4$ perchÃ© per valori elevati di $d$, la curva polinomiale puÃ² diventare eccessivamente **flessibile** e assumere forme molto strane;
+
+- I coefficienti $\beta_i$, con $i = 1,\dots, d$, possono essere stimati facilmente utilizzando la **regressione lineare ai minimi quadrati**, poichÃ© il modello Ã¨ un modello lineare standard con predittori $X, X^2, \dots , X^d$ che sono derivati dalla trasformazione del predittatore originale $X$;
+
+---
+
+# Regressione polinomiale
+
+- I minimi quadrati restituiscono le stime della varianza per ciascuno dei coefficienti stimati e le covarianze tra le coppie di stime dei coefficienti: 
+
+      Se $\hat{C}$ Ã¨ la matrice di covarianza di $\hat{\beta}_j$, e se $l_0^\top = (1, x_0, \dots, x_0^d)$, allora $Var(\hat{f}(x_0)) = l_0^\top \hat{C} l_0$, dove $\hat{f}(x_0) = \hat{\beta}_0 + \hat{\beta}_1 x_0 + \dots, \hat{\beta}_d x_0^d$, e $x_0$ Ã¨ un particolare valore di $X$.
+
+- I singoli coefficienti sono **difficili da interpretare** poichÃ© i monomi sottostanti possono essere altamente correlati. Ã piÃ¹ importante la stima complessiva del modello e la visione che fornisce sulla relazione tra i predittori e la risposta.
+
+---
+
+# Regressione polinomiale
+
+In R:
+
+```{r, eval = FALSE}
+lm(y ~ poly(x, degree = d, raw = FALSE), data = db)
+```
+
+dove 
+
+- `poly` calcola il polinomio di grado `d` di `x`, quindi `poly(x, 2)` Ã¨ uguale a $X + X^2$, 
+
+- `raw` calcola il polinomio ortogonale (cioÃ¨ riduce la multicollinearitÃ ) se Ã¨ uguale a `FALSE` (valore di default).
+
+
+---
+
+# Regressione polinomiale
+
+```{r, echo = FALSE, fig.align = 'center', fig.width = 10}
+ggplot(Boston, aes(x = lstat, y = medv) ) +
+   geom_point(size = 2, col = "darkred") + theme_classic() +
+  xlab("% di persone con stato socio-economico basso (no istruzione superiore e operai)") + ylab("Valore mediano delle case occupate dai proprietari in 1000 dollari.") + ggtitle("Valori delle abitazioni nei sobborghi di Boston")+ stat_smooth(method="lm", 
+                formula=y ~ poly(x, 2),aes(colour="Second"), show.legend=TRUE) + stat_smooth(method="lm", 
+                formula=y ~ poly(x, 3),aes(colour="Third"), show.legend=TRUE) +
+  scale_colour_manual(name='Degree', values=c("black", "blue"))
+```
+
+---
+class: inverse, center, middle
+
+# Funzione a gradini
+
+---
+
+# Funzione a gradini
+
+Le funzioni polinomiali impongono una **struttura globale** alla funzione non lineare di $X$. Possiamo usare **funzioni a gradini** che tagliano l'intervallo di una variabile in $K$ regioni distinte (**_bins_**) e stimano una costante diversa in ogni _bin_. CiÃ² equivale a convertire una variabile continua in una variabile categoriale ordinata. 
+
+Siano $c_1, \dots, c_K$ i _cutpoints_ nell'intervallo di $X$, in modo da costruire $K+1$ nuove variabili:$$C_0(X) = I(X < c_1)$$
+
+$$C_1(X) = I(c_1 \le X < c_2) $$
+
+$$\dots$$
+$$C_{K-1}(X) = I(c_{K-1} \le X \le c_K)$$
+
+$$C_K(X) = I(c_K > X)$$dove $I(\cdot)$ Ã¨ la funzione indicatrice.
+
+---
+
+# Funzione a gradini
+
+Utilizziamo quindi i ** minimi quadrati** per stimare un modello lineare utilizzando $C_1(X), C_2(X), \dots ,C_K(X)$ come predittori:
+
+$$y_i = \beta_0 + \beta_1 C_1(x_i) + \dots + \beta_{K} C_K(x_i) + \epsilon_i$$
+
+- Notiamo che quando $X < c_1$, tutti i predittori sono nulli, quindi $\beta_0$ puÃ² essere interpretato come il valore medio di $Y$ per $X < c_1$. 
+
+- In confronto, prevediamo una risposta di $\beta_0+\beta_j$ per $c_j \le X < c_{j+1}$, quindi $\beta_j$ rappresenta l'aumento medio della risposta per $X$ in $c_j \le X < c_{j+1}$ rispetto a $X <c_1$.
+
+- Sfortunatamente, a meno che non ci siano **_cutpoints_ naturali** in $X$, le funzioni a gradini possono non catturare completamente la relazione tra $X$ e $Y$.
+
+---
+
+# Funzione a gradini
+
+In R:
+
+```{r, eval = FALSE}
+lm(y ~ cut(x, breaks = b), data = db)
+```
+
+dove 
+
+- `cut(x, breaks =b)` crea $C_k(\cdot)$ considerando `b` $=K$ `breaks` specificati come un singolo numero. L'intervallo dei dati viene diviso in "intervalli" di uguale lunghezza, quindi i limiti esterni dell'intervallo vengono allontanati di $0.1$ per garantire che i valori estremi di `x` rientrino entrambi negli intervalli creati.
+
+
+---
+
+# Funzione a gradini
+
+```{r, echo = FALSE, fig.align = 'center', fig.width = 10}
+ggplot(Boston, aes(x = lstat, y = medv) ) +
+   geom_point(size = 2, col = "darkred") + theme_classic() +
+  xlab("% di persone con stato socio-economico basso (no istruzione superiore e operai)") + ylab("Valore mediano delle case occupate dai proprietari in 1000 dollari.") + ggtitle("Valori delle abitazioni nei sobborghi di Boston") + 
+  stat_smooth(method = lm, formula = y ~ cut(x, 5))
+```
+
+
+---
+class: inverse, center, middle
+
+# Basi di funzione
+
+---
+
+# Basi di funzione
+
+I modelli di regressione polinomiale e a gradini sono in realtÃ  casi speciali di un approccio basato su **basi di funzioni**. L'idea Ã¨ di avere a disposizione una famiglia di funzioni o trasformazioni che possono essere applicate a una variabile $X$: $b_1(X), b_2(X), \dots , b_K(X)$:
+
+$$
+y_i = \beta_0 + \beta_1 b_1 (x_i) + \dots + \beta_K b_K(x_i) + \epsilon_i
+$$
+
+dove $b_1(\cdot), \dots, b_K(\cdot)$ sono basi di funzione fisse e note, $i = 1, \dots, n$ con $n$ numero di osservazioni.
+
+- Per la **regressione polinomiale** $\rightarrow$ $b_j(x_i) = x_i^j$.
+
+- Per le **funzioni a gradini** $\rightarrow$ $b_j(x_i) = I(c_j \le x_i < c_{j+1})$.
+
+Abbiamo un modello lineare standard con predittori $b_1 (x_i), \dots, b_K(x_i)$. Pertanto, possiamo utilizzare nuovamente i **minimi quadrati** per stimare i coefficienti $\beta_j$.
+
+---
+
+# Basi di funzione
+
+Finora abbiamo considerato l'uso di funzioni polinomiali e di funzioni a gradini come $b_j(X)$; tuttavia, sono possibili molte alternative:
+
+- funzione wavelet;
+
+- serie di Fourier. 
+
+Nella prossima slide, analizzeremo una scelta molto comune: le **_spline_ di regressione**.
+
+
+---
+class: inverse, center, middle
+
+# _Spline_ di regressione
+
+---
+
+# _Spline_ di regressione
+
+Le **_spline_ di regressione** sono piÃ¹ flessibili dei polinomi e delle funzioni a gradino, e di fatto sono una loro estensione. Si tratta di dividere l'intervallo di $X$ in $K$ **regioni distinte**. All'interno di ciascuna regione stimiamo una funzione polinomiale. Tuttavia, questi polinomi sono vincolati in modo che si uniscano ai bordi della regione, o **nodi**. Se l'intervallo Ã¨ diviso in un numero sufficiente di regioni, si puÃ² ottenere un adattamento estremamente flessibile ai dati.
+
+
+```{r, echo=FALSE, out.width="50%", fig.align = 'center'}
+knitr::include_graphics("Images/regrSplines.png")
+```
+
+
+---
+
+# _Spline_ di regressione
+
+Ad esempio, un **polinomio cubico a gradini** funziona stimando una regressione polinomiale cubica:
+
+$$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \epsilon_i$$
+
+dove i coefficienti $\beta_0$, $\beta_1$, $\beta_2$ e $\beta_3$ differiscono in diverse parti dell'intervallo di $X$. I punti in cui i coefficienti cambiano sono i **nodi**.
+
+Ad esempio, considerando $d=3$ e $K=1$, si ha:
+
+$$y_i = \begin{cases}
+\beta_{01} + \beta_{11} x_i + \beta_{21}x_i^2 + \beta_{31}x_i^3 + \epsilon_i \quad \text{se} \,\,\, x_i  < c\\
+\beta_{02} + \beta_{12} x_i + \beta_{22}x_i^2 + \beta_{32}x_i^3 + \epsilon_i \quad \text{se} \,\,\, x_i  \ge c\\
+\end{cases}$$
+
+---
+
+# _Spline_ di regressione
+
+- Ciascuna di queste funzioni polinomiali puÃ² essere stimata utilizzando i **minimi quadrati** applicati a semplici funzioni del predittore originale.
+
+- L'uso di un maggior numero di nodi porta a una polinomiale a gradini piÃ¹ **flessibile**.
+
+- Si possono aggiungere **vincoli** se la curva stimata Ã¨ troppo flessibile (ad esempio, continuitÃ  della derivata prima e continuitÃ  della derivata seconda). Ogni vincolo che imponiamo ai polinomi cubici a gradini libera di fatto **un grado di libertÃ **, riducendo la complessitÃ  del processo di stima $\rightarrow$ **_spline_ cubiche**:
+
+$$y_i = \beta_0 + \beta_1 b_1(x_i) + \dots + \beta_{K+3} b_{K+3}(x_i) + \epsilon_i$$
+
+per una scelta appropriata di $b_1(\cdot), \dots, b_{K+3}(\cdot)$. 
+
+CosÃ¬ come esistono diversi modi per rappresentare i polinomi, esistono anche molti modi equivalenti per rappresentare le _spline_ cubiche utilizzando diverse scelte di $b_j(x_i)$.
+
+---
+
+# _Spline_ di regressione
+
+Ad esempio, possiamo utilizzare una base di polinomio cubico, ovvero $x$, $x^2$ e $x^3$, e poi aggiungere una base delle potenze troncate per indicare i nodi.
+
+Una **base di potenza troncata** Ã¨ definita come:
+
+$$h(x, \xi) = (x - \xi)^3_{+} = \begin{cases}
+(x - \xi)^3 & \text{se} \quad x > \xi \\
+0 & \text{altrimenti,}
+\end{cases}$$
+
+dove $\xi$ indica il nodo.
+
+Si puÃ² dimostrare che l'aggiunta di un termine della forma $\beta_4h(x, \xi)$ al modello di regressione polinomiale cubica porterÃ  a una discontinuitÃ  solo nella derivata terza in corrispondenza di $\xi$; la funzione rimarrÃ  **continua, con derivate prime e seconde continue**, in corrispondenza di ciascuno dei nodi.
+
+---
+
+# _Spline_ di regressione
+
+In altre parole, per stimare una _spline_ cubica a un insieme di dati con $K$ nodi, dobbiamo
+eseguire una regressione con un'intercetta e $3+K$ predittori, della forma $X$, $X^2$, $X^3$, $h(X, \xi_1)$, $h(X, \xi_1), \dots, h(X, \xi_K)$, dove $\xi_1, \dots , \xi_K$ sono i nodi. 
+
+CiÃ² equivale a stimare un totale di $K + 4$ coefficienti di regressione; per questo motivo, il processo di stima di una _spline_ cubica con $K$ nodi utilizza $K+4$ **gradi di libertÃ **.
+
+- Le _spline_ possono avere una **varianza elevata** nell'intervallo esterno dei predittori, cioÃ¨ quando $X$ assume un valore molto piccolo o molto grande.
+
+- Una **_spline_ naturale** Ã¨ una _spline_ di regressione con ulteriori vincoli sui bordi: la funzione deve essere **lineare ai bordi** (nella regione in cui $X$ Ã¨ piÃ¹ piccolo del nodo piÃ¹ piccolo o piÃ¹ grande del nodo piÃ¹ grande). Questo vincolo aggiuntivo fa sÃ¬ che le _spline_ naturali producano generalmente **stime piÃ¹ stabili sui bordi**.
+
+
+---
+
+# _Spline_ di regressione
+
+
+ > **Quando stimiamo una _spline_, dove dobbiamo posizionare i nodi?**
+
+- Posizionare **piÃ¹ nodi** nei punti in cui riteniamo che la funzione possa variare **piÃ¹ rapidamente**, e posizionare **meno nodi** dove sembra **piÃ¹ stabile**.
+
+- Tuttavia, nella pratica Ã¨ comune posizionare i nodi in modo **uniforme**. Un modo per farlo Ã¨ quello di specificare i **gradi di libertÃ ** desiderati e poi far sÃ¬ che il software collochi automaticamente il numero corrispondente di nodi in corrispondenza dei **quantili** uniformi dei dati.
+
+---
+
+# _Spline_ di regressione
+
+> **Quanti nodi dovremmo usare, o equivalentemente quanti gradi di libertÃ  dovrebbe contenere la nostra _spline_?**
+
+- Provare un numero diverso di nodi e vedere quale produce la curva migliore $\rightarrow$ **validazione incrociata**.
+
+**Riassumendo**: Le _spline_ di regressione spesso danno risultati superiori alla regressione polinomiale. Questo perchÃ©, a differenza dei polinomi, che devono utilizzare un grado elevato per produrre adattamenti flessibili, le _spline_ introducono flessibilitÃ  aumentando il numero di nodi ma mantenendo il **grado fisso**.
+
+---
+
+# _Spline_ di regressione
+
+In R:
+```{r, eval = FALSE}
+lm(y ~ bs(x, knots = knots, degree = d)
+```
+
+
+```{r, eval = FALSE}
+lm(y ~ bs(x, df = df)
+```
+
+- `bs` sta per *B-_spline_* (una parametrizzazione specifica di una _spline_ cubica). Qui si puÃ² decidere di specificare i `knots` o i gradi di libertÃ  direttamente con l'argomento `df`. 
+
+- Se `knots=NULL` allora abbiamo una regressione polinomiale ordinaria. Valori tipici sono la media o la mediana per un nodo, i quantili per piÃ¹ nodi. 
+
+- `df = length(knots) + d` piÃ¹ uno se abbiamo l'intercetta.
+
+- `degree` permette di specificare il grado della polinomiale a gradini. Default Ã¨ $3$.
+
+---
+
+# _Spline_ di regressione
+
+```{r, echo = FALSE, fig.align = 'center'}
+ggplot(Boston, aes(x = lstat, y = medv) ) +
+   geom_point(size = 2, col = "darkred") + theme_classic() +
+  xlab("% di persone con stato socio-economico basso (no istruzione superiore e operai)") + ylab("Valore mediano delle case occupate dai proprietari in 1000 dollari.") + ggtitle("Valori delle abitazioni nei sobborghi di Boston")+
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 5))
+```
+
+
+
+---
+class: inverse, center, middle
+
+# _Spline_ di lisciamento
+
+
+---
+
+# _Spline_ di lisciamento
+
+Le **_spline_ di lisciamento** sono simili alle _spline_ di regressione, ma nascono in una situazione leggermente diversa, ovvero la minimizzazione di un criterio RSS soggetto a una **penalitÃ  di lisciamento**.
+
+Nell'adattare una curva di lisciamento a un insieme di dati, ciÃ² che vogliamo fare Ã¨ trovare una funzione, diciamo $f(X)$, che si adatti bene ai dati osservati: vogliamo cioÃ¨ che
+
+$$RSS =\sum_{i =1}^{n}(y_i - f(x_i))^2$$ sia piccolo. 
+Tuttavia, questo approccio presenta un problema. Se non poniamo alcun vincolo su $f(x_i)$, allora possiamo sempre rendere RSS pari a zero scegliendo $f$ in modo che interpoli tutti gli $y_i$. Una funzione di questo tipo si adatterebbe completamente ai dati, cioÃ¨ sarebbe **troppo flessibile**. 
+
+> Quello che vogliamo veramente Ã¨ una funzione $f$ che renda $RSS$ piccolo, ma che sia anche **liscia**.
+
+
+
+---
+
+# _Spline_ di lisciamento
+
+Un approccio immediato Ã¨ quello di trovare la funzione $f$ che minimizza:
+
+$$\underbrace{\sum_{i =1}^{n}(y_i - f(x_i))^2}_{\text{Funzione obiettivo}} + \underbrace{\lambda \int f^{\prime\prime}(t)^2 dt}_{\text{Termine di penalizzazione}} \quad \quad (1)$$
+
+dove $\lambda>0$ Ã¨ un **parametro di regolarizzazione/penalizzazione**, e la funzione $f$ Ã¨ nota come **_spline_ di lisciamento**.
+
+$f^{\prime\prime}(\cdot)$ indica la derivata seconda della funzione $f(\cdot)$ che descrive la velocitÃ  di variazione di $f$, ovvero ci restituisce un'indicazione sull'**incremento della pendenza**:
+
+- Ã¨ grande in valore assoluto se $f(t)$ Ã¨ molto mutevole vicino a $t$, e 
+
+- altrimenti Ã¨ prossima allo zero.
+
+---
+
+# _Spline_ di lisciamento
+
+In altre parole, $\int f^{\prime\prime}(t)^2 dt$ Ã¨ semplicemente una misura della variazione totale della funzione $f^\prime(t)$, in tutto il suo intervallo. 
+- Se $f$ Ã¨ **molto regolare**, allora $f^\prime(t)$, sarÃ  vicino a una **costante** e $\int f^{\prime\prime}(t)^2 dt$ assumerÃ  un **valore piccolo**. 
+
+- Se $f$ Ã¨ **variabile** e irregolare, allora $f^\prime(t)$ varierÃ  in modo significativo e $\int f^{\prime\prime}(t)^2 dt$ assumerÃ  un **valore grande**. 
+
+Pertanto, $\lambda \int f^{\prime\prime}(t)^2 dt$ incoraggia $f$ ad essere liscia $\rightarrow$ piÃ¹ grande Ã¨ il valore di $\lambda$, piÃ¹ liscia sarÃ  $f$.
+
+$\lambda$ controlla il **bilanciamento tra distorsione e varianza** della _spline_ di lisciamento:
+
+- $\lambda = 0$: nessun vincolo $\rightarrow$ la funzione $f$ sarÃ  molto **"saltellante"**e interpolerÃ  esattamente le osservazioni.
+
+- $\lambda \rightarrow \infty$: vincolo massimo $\rightarrow$ **perfettamente liscia**, sarÃ  una linea retta che passa il piÃ¹ vicino possibile ai punti.
+
+---
+
+# _Spline_ di lisciamento
+
+
+
+> **NB**: La funzione $f(x)$ che minimizza (1) Ã¨ una **_spline_ naturale** con nodi in ogni punto dei dati $x_1, \dots ,x_n$ (una versione ridotta dal momento che abbiamo il parametro di regolarizzazione $\lambda$). 
+Tuttavia, non Ã¨ pratico avere nodi in ogni punto dei dati quando trattiamo modelli di grandi dimensioni. Pertanto, una _spline_ di lisciamento Ã¨ essenzialmente uno spreco, poichÃ© i **gradi di libertÃ  effettivi** utilizzati saranno minori del numero di nodi (a causa della regolarizzazione effettuata da $\lambda$).
+
+
+Dato che $\lambda$ controlla il lisciamento della _spline_, controlla quindi anche i **gradi di libertÃ  effettivi**, $df \lambda$.
+
+---
+
+# _Spline_ di lisciamento
+
+Ad esempio, le **_spline_ cubiche naturali** con $K$ nodi sono rappresentate da $K$ funzioni base. Si puÃ² partire da una base per le _spline_ cubiche e ricavare la base ridotta imponendo vincoli sui bordi:
+
+$$N_1(X) =1 \quad N_2(X)=X  \quad N_3(X)=d_k(X) - d_{K-1}(X)$$ dove
+
+$$d_k(X) = \dfrac{(X - \xi_k)^3_+ - (X - \xi_K)^3_+}{\xi_K - \xi_k}$$
+
+Ciascuna di queste basi puÃ² essere vista come avente derivata seconda e terza nulla per $X \ge \xi_K$.
+
+---
+
+# _Spline_ di lisciamento
+
+Quindi, poichÃ¨ la soluzione della (1) Ã¨ una _spline_ naturale, possiamo scrivere $f(X)= \sum_{j=1}^{N} N_j(x)\beta_j$. 
+
+Abbiamo dunque in forma matriciale:
+
+$$RSS = (Y - \boldsymbol{N}\boldsymbol{\beta})^\top (Y - \boldsymbol{N}\boldsymbol{\beta}) + \lambda \boldsymbol{\beta}^\top \boldsymbol{\Omega_N} \boldsymbol{\beta}$$ dove $\{\boldsymbol{N}\}_{ij} = N_j(x_i)$ e $\{\boldsymbol{\Omega_N}\}_{jk} = \int N^{\prime\prime}_j(t)N^{\prime\prime}_k(t) dt$. 
+
+I coefficienti sono dunque stimati tramite:
+
+$$\hat{\boldsymbol{\beta}} = (\boldsymbol{N}^\top \boldsymbol{N} + \lambda \boldsymbol{\Omega_N})^{-1} \boldsymbol{N}^\top Y.$$
+---
+
+# _Spline_ di lisciamento
+
+Di solito i gradi di libertÃ  si riferiscono al numero di **parametri liberi**, come il numero di coefficienti di una _spline_ polinomiale. Sebbene una _spline_ di lisciamento abbia $n$ parametri e quindi $n$ gradi di libertÃ  nominali, questi $n$ parametri sono fortemente vincolati e ridotti.
+
+$df\lambda$ Ã¨ quindi una misura della flessibilitÃ  della _spline_ di lisciamento: **piÃ¹ Ã¨ alto, piÃ¹ flessibile Ã¨ la _spline_ di lisciamento**. Abbiamo:
+
+$$\hat{f}_{\lambda} = \boldsymbol{S}_{\lambda}y$$ dove $\hat{f}_{\lambda}$ Ã¨ la soluzione della (1) per una particolare scelta di $\lambda$, e $\boldsymbol{S}_{\lambda} =\boldsymbol{N}(\boldsymbol{N}^\top \boldsymbol{N} + \lambda \boldsymbol{\Omega_N})^{-1} \boldsymbol{N}^\top$ Ã¨ la matrice $n \times n$ di **lisciamento** che dipende solo da $x_i$ e $\lambda$. Possiamo quindi definire $df \lambda$ come:
+
+$$df\lambda = tr(\boldsymbol{S}_{\lambda})$$
+dove $tr(\cdot)$ indica la traccia della matrice.
+
+---
+
+# _Spline_ di lisciamento
+
+Nell'applicazione di una _spline_ di lisciamento, non Ã¨ necessario selezionare il numero o la posizione dei nodi: ci sarÃ  un nodo per ogni osservazione $x_1, \cdots ,x_n$. 
+
+Il problema Ã¨ invece un altro: dobbiamo scegliere il valore di $\lambda$. Non deve sorprendere che una possibile soluzione a questo problema sia la **validazione incrociata**. In altre parole, possiamo trovare il valore di $\lambda$ che rende l'RSS sottoposto a convalida incrociata il piÃ¹ piccolo possibile. Si scopre che il **leave one-out cross-validation error ** (LOOCV) puÃ² essere calcolato in modo molto efficiente per le _spline_ di lisciamento:
+
+$$RSS_{cv}(\lambda) = \dfrac{1}{n}\sum_{i=1}^{n} (y_i - \hat{f}_{\lambda}^{-i}(x_i))^2 = \dfrac{1}{n}\sum_{i=1}^{n} \Big[\dfrac{y_i - \hat{f}_{\lambda}(x_i)}{1 - \{\boldsymbol{S}_{\lambda}\}_{ii}}\Big]^2$$
+
+dove $\hat{f}^{-i}$ indica il valore stimato per questa _spline_ lisciante valutato a $x_i$ utilizzando tutte le osservazioni di addestramento tranne l' $i$ esima osservazione $(x_i, y_i)$.
+
+---
+
+# _Spline_ di lisciamento
+
+In R:
+
+```{r eval = FALSE}
+smooth.spline(x,y)
+smooth.spline(x,y, nknots = nknots, cv = TRUE)
+smooth.spline(x,y, lambda = lambda)
+```
+
+dove:
+
+* `nknots`: numero di nodi se `all.nknots = FALSE` (cioÃ¨, tutti i punti distinti in `x` non sono usati come nodi).
+
+* `lambda`: parametro di lisciamento $\lambda$.
+
+* `cv`: leave-one-out ordinario se `TRUE` o convalida incrociata generalizzata (GCV) quando `FALSE` per il calcolo di $\lambda$ solo quando `lambda` non Ã¨ specificato.
+
+* `df`: il numero di gradi di libertÃ  desiderato quando `lambda` Ã¨ `NULL`. Viene utilizzato per determinare il grado di lisciamento.
+
+
+---
+
+# _Spline_ di lisciamento
+
+```{r, echo = FALSE, fig.align = 'center'}
+ggplot(Boston, aes(x = lstat, y = medv) ) +
+   geom_point(size = 2, col = "darkred") + theme_classic() +
+ xlab("% di persone con stato socio-economico basso (no istruzione superiore e operai)") + ylab("Valore mediano delle case occupate dai proprietari in 1000 dollari.") + ggtitle("Valori delle abitazioni nei sobborghi di Boston") +
+  ggformula::geom_spline()
+```
+
+
+
+---
+class: inverse, center, middle
+
+# Modelli additivi generalizzati
+
+---
+
+# Modelli additivi generalizzati
+
+I **modelli additivi generalizzati** (GAM) sono stati originariamente inventati da Trevor Hastie e Robert Tibshirani nel 1986.
+
+I GAM ci permettono di estendere i metodi sopra descritti per trattare **predittori multipli**</span> e di estendere un modello lineare standard utilizzando funzioni non lineari per ciascuna variabile, pur mantenendo la proprietÃ  **additivitÃ **. 
+
+Per consentire relazioni non lineari tra ogni predittore e la risposta, ogni componente lineare $\beta_j x_{ij}$ Ã¨ sostituito da una **funzione non parametrica** (smooth) $f_j(x_{ij})$:
+
+$$g(\mu_i) = \beta_0 + \sum_{j=1}^{p} f_j(x_{ij}) + \epsilon_{i}$$
+dove $\mathbb{E}(Y_i) = \mu_i$ e $Y_i \sim$ una qualche distribuzione della famiglia esponenziale.
+
+Si chiama modello additivo perchÃ© si calcola una $f_j$ separata per ogni $X_j$ e poi si sommano tutti i loro contributi.
+
+
+---
+
+# Modelli additivi generalizzati
+
+I GAM sono quindi costituiti da **diverse funzioni di lisciamento**. Pertanto, quando si stimano i GAM, l'obiettivo Ã¨ stimare simultaneamente tutte le funzioni di lisciamento, insieme ai termini parametrici (se presenti) nel modello.
+
+Esistono due modi per farlo:
+
+- **Algoritmo di _local scoring_**: un'estensione dell'algoritmo di **backfitting**, che a sua volta si basa sulla procedura Gauss-Seidel per la risoluzione di sistemi lineari.
+
+- Risolvere il GAM come un GLM di grandi dimensioni con i **minimi quadrati iterativi ponderati penalizzati** (PIRLS).
+
+In generale, l'algoritmo di _local scoring_ Ã¨ piÃ¹ **flessibile** nel senso che Ã¨ possibile utilizzare qualsiasi tipo di funzione di lisciamento nel modello, mentre l'approccio GLM funziona solo per le **_spline_ di regressione**. Tuttavia, l'algoritmo di _local scoring_ Ã¨ computazionalmente piÃ¹ **costoso** e non si presta altrettanto bene alla selezione automatica dei parametri di lisciamento come l'approccio GLM.
+
+---
+
+# Modelli additivi generalizzati
+
+Quando si stima un GAM, la scelta dei **parametri di lisciamento** Ã¨ fondamentale. Si puÃ² scegliere di preselezionare i parametri di lisciamento o di stimare i parametri di lisciamento dai dati. Esistono due modi per stimare il parametro di lisciamento:
+
+- **Criteri di validazione incrociata generalizzata** (GCV).
+
+- Approccio a modelli misti tramite **massima verosimiglianza ristretta** (REML).
+
+Il REML si applica solo se stiamo considerando il GAM come un GLM di grandi dimensioni. Generalmente l'approccio REML
+converge piÃ¹ velocemente del GCV.
+
+---
+
+# Modelli additivi generalizzati
+
+Sia per il _local scoring_ che per l'approccio GLM, l'obiettivo finale Ã¨ quello di massimizzare la **funzione di verosimiglianza penalizzata**, anche se i due approcci seguono strade molto diverse.
+
+Supponiamo ora, per semplicitÃ , che siano disponibili due variabili esplorative $x_1$ e $x_2$ per una variabile di risposta $Y$:
+
+$$y_i = f_1(x_{i1}) + f_2(x_{i2}) + \epsilon_i$$
+
+dove $f_j$ sono funzioni di lisciamento e $\epsilon_i \sim N(0, \sigma^2)$ i.i.d.
+
+In questo caso, dobbiamo affrontare un problema di **identificabilitÃ ** (ad esempio, qualsiasi costante potrebbe essere aggiunta simultaneamente a $f_1$ e sottratta a $f_2$ senza modificare le previsioni del modello). Il modo piÃ¹ semplice Ã¨ quello di porre a zero uno dei parametri dell' intercetta in $f_1$ e $f_2$ scritti come base di funzione della _spline_ di regressione. 
+
+---
+
+# Modelli additivi generalizzati
+
+DopodichÃ©, il modello additivo puÃ² essere scritto nuovamente in forma di modello lineare e i parametri $\boldsymbol{\beta}$ si ottengono minimizzando i **minimi quadrati penalizzati**:
+
+$$||Y- \boldsymbol{X} \boldsymbol{\beta}||^2 + \lambda_1 \boldsymbol{\beta}^\top \boldsymbol{S}_1 \boldsymbol{\beta} + \lambda_2 \boldsymbol{\beta}^\top \boldsymbol{S}_2 \boldsymbol{\beta}$$
+dove $\lambda_1$ e $\lambda_2$ sono i parametri di lisciamento che controllano il peso da dare a $f_1$ e $f_2$, e $\boldsymbol{\beta}^\top \boldsymbol{S}_j \boldsymbol{\beta} = \int f_j^{\prime\prime}(x)^2 dx$.
+
+Come nel caso delle _spline_ di lisciamento, supponiamo che siano dati $\lambda_1$ e $\lambda_2$ e consideriamo $\boldsymbol{S}:= \lambda_1 \boldsymbol{S}_1 + \lambda_2 \boldsymbol{S}_2$, abbiamo:
+
+$$||Y - X \beta||^2 + \boldsymbol{\beta}^\top \boldsymbol{S} \boldsymbol{\beta} = \Big|\Big| \begin{bmatrix} Y \\ 0 \end{bmatrix} - \begin{bmatrix} \boldsymbol{X} \\ \boldsymbol{B} \end{bmatrix} \beta \Big|\Big|^2$$
+dove $\boldsymbol{B}$ Ã¨ una qualsiasi matrice a radice quadrata tale che $\boldsymbol{B}^\top \boldsymbol{B} = \boldsymbol{S}$. Il modello puÃ² essere stimato mediante **regressione lineare standard**.
+
+---
+
+# Modelli additivi generalizzati
+
+Consideriamo ora una **qualsiasi distribuzione della famiglia esponenziale** per la risposta o semplicemente consideriamo una distribuzione con una relazione media-varianza nota, che permetta l'uso di un approccio di quasi-verosimiglianza. 
+
+In questo caso il GAM sarÃ  stimato mediante **massimizzazione della verosimiglianza penalizzata**: in pratica, ciÃ² sarÃ  ottenuto mediante **minimi quadrati iterativamente riponderati penalizzati (P-IRLS)** fino alla convergenza.
+
+
+
+---
+
+# Modelli additivi generalizzati
+
+**Minimi quadrati iterativamente ripesati penalizzati**:
+
+1. Dato il parametro corrente stimato $\beta^{[k]}$ e il corrispondente vettore di risposta medio stimato $\mu^{[k]}$ calcolare:
+
+$$w_i \propto \dfrac{1}{V(\mu_i^{[k]}) g^{\prime}(\mu_i^{[k]})} \quad \text{e} \quad z_i:=g(\mu_i^{[k]}) (y_i - \mu_i^{[k]}) + X_i \beta^{[k]}$$
+dove $var(Y_i) = V(\mu_i^{[k]})\phi$, $\phi$ Ã¨ un parametro di scala arbitrario e $X_i$ Ã¨ la $i$esima riga di $X$.
+
+2. Minimizzare:
+
+$$||\sqrt{\boldsymbol{W}}(z - \boldsymbol{X}\boldsymbol{\beta}) ||^2 + \lambda_1 \boldsymbol{\beta}^\top S_1 \boldsymbol{\beta} + \lambda_2 \boldsymbol{\beta}^\top S_2 \boldsymbol{\beta}$$
+rispetto a $\beta$ per ottenere $\beta^{[k+1]}$. $\boldsymbol{W}$ Ã¨ una matrice diagonale tale che $\boldsymbol{W}_{ii} = w_i$.
+
+---
+
+# Modelli additivi generalizzati
+
+> TO sum up
+
+- I modelli basati su **_spline_ di lisciamento** di variabili predittive possono essere rappresentati e stimati, una volta scelte una base e una penalitÃ  di oscillazione per ogni _spline_ di lisciamento del modello. 
+
+- La stima del modello avviene tramite **versioni penalizzate** dei metodi dei minimi quadrati o della massima verosimiglianza/IRLS, con cui si stimano i modelli lineari o i modelli lineari generalizzati, poichÃ©, data una base, un modello additivo o GAM Ã¨ semplicemente un modello lineare o GLM, con una o piÃ¹ penalitÃ  associate. 
+
+- Il problema aggiuntivo, nel lavorare con i GAM, Ã¨ che dobbiamo scegliere quanto penalizzare il processo di stima, ma il **GCV** sembra fornire una soluzione abbastanza ragionevole. Il GCV Ã¨ un'approssimazione della convalida incrociata che abbiamo visto precedentemente:
+
+$$GCV(\hat{f})=\dfrac{1}{n} \sum_{i=1}^{n}\Big[\dfrac{y_i -\hat{f}_{\lambda}(x_i)}{1 - tr(\boldsymbol{S}_{\lambda})/n}\Big]^2$$
+---
+
+# Modelli additivi generalizzati
+
+In R:
+
+```{r eval = FALSE}
+gam(y ~ s(x1, fx = TRUE) + s(x2, k = k) + s(x3, by = x5), data = db)`
+```
+
+- `s()` indica che si vuole una **_spline_ di lisciamento** per quel predittore. Esistono diversi tipi di _spline_ implementati nella funzione, che possono essere specificati nell'argomento `bs` (vedere `smooth.terms`). Default in `mgcv` Ã¨ una _thin plate spline_ di regressione - le due piÃ¹ comuni sono queste e le _spline_ di regressione cubica (`bs="cr"`).  
+
+- `k` indica la dimensione della base. In `choose.k` potete trovare una descrizione completa e dettagliata sulla scelta della dimensione `k`.
+
+- `fx` indica se il termine Ã¨ una _spline_ di regressione fissa (`TRUE`) o una _spline_ di regressione penalizzata (`FALSE`). 
+
+- `by` permette agli smooths di _interagire_ con fattori o termini parametrici. Ulteriori informazioni sono disponibili qui `help(gam.models)`.
+
+---
+
+# Modelli additivi generalizzati
+
+I GAM sono quindi molto **flessibili** e possono essere applicati anche a situazioni in cui si Ã¨ interessati a 
+
+- **tendenze temporali**;
+
+- **aspetti spaziali**.
+
+L'approccio di regressione penalizzata utilizzato dai GAM puÃ² facilmente estendere tali situazioni e il pacchetto `mgcv` in particolare offre molte opzioni in questo senso.
+
+
+---
+
+# Modelli additivi generalizzati
+
+### Dimensione temporale
+
+> Come modelliamo dati raccolti nel corso dell'anno per molti anni tramite un GAM?
+
+Potremmo per esempio voler modellare le seguenti caratteristiche dei dati:
+
+1. il **trend** o variazione a lungo termine della serie temporale
+2. la **variazione stagionale** o variazione all'interno dell'anno, 
+3. l' **interazione** tra le caratteristiche stagionali e del trend dei dati.
+
+$$Y = \beta_0 + f_{\text{stagionale}}(x_1)+ f_{\text{trend}}(x_2) + f_{\text{stagionale,trend}}(x_1, x_2) + \epsilon$$
+dove $\beta_0$ Ã¨ l'intercetta, $f_{\text{stagionale}}$ e $f_{\text{trend}}$ sono funzioni di lisciamento per le caratteristiche stagionali e di trend che ci interessano, e $x_1$ e $x_2$ sono covariate che forniscono una qualche forma di informazione temporale.
+
+---
+
+# Modelli additivi generalizzati
+
+- **Cyclic cubic regression _spline_**: _spline_ di regressione cubica penalizzata i cui estremi coincidono, fino alla derivata seconda, il che ha senso quando si modella una variabile che Ã¨ ciclica; 
+
+- **cyclic P-_spline_**: B-_spline_ penalizzata con un ampio insieme di nodi equidistanti (numericamente stabile e molto facile da definire e implementare). Qui Ã¨ possibile definire l'ordine della penalizzazione (l' ordine pari a zero equivale a una penalizzazione di ridge) sui coefficienti. Ulteriori dettagli in `help(cyclic.p.spline)`.
+
+Alcuni metodi di lisciamento estremamente utili nelle serie temporali stagionali per stimare le variazioni periodiche, come quelle giornaliere e annuali.
+
+
+---
+
+# Modelli additivi generalizzati
+
+In R:
+
+- `s(x, bs="cc")` per **_Spline_ di regressione cubica ciclica**
+
+- `s(x, bs="cp")` per **P-_spline_ ciclica**
+
+
+Ad esempio: 
+
+
+Gli effetti stagionali delle ore e dei quadrimestri possono essere modellati da due _spline_ di regressione cubica ciclica con basi di funzione di dimensione $24$ e $4$.
+
+---
+
+# Modelli additivi generalizzati
+
+### Dimensione spaziale
+
+> Come modelliamo dati raccolti in un'area geografica con un GAM?
+
+Consideriamo un insieme di dati con coordinate di **latitudine** e **longitudine**, insieme ad altre caratteristiche utilizzate per modellare una variabile di interesse. 
+
+Un'analisi di regressione spaziale vuole tener conto della **covarianza spaziale** tra i punti di osservazione. Una tecnica comunemente utilizzata Ã¨ un caso speciale di **processo gaussiano** che puÃ² essere considerato tale anche da alcuni tipi di GAM. Inoltre, alcuni tipi di modelli spaziali possono essere visti come **modelli a effetti casuali**, proprio come i GAM. 
+
+Tali connessioni significano che possiamo aggiungere i modelli spaziali ai tipi di modelli coperti dai GAM.
+
+---
+
+# Modelli additivi generalizzati
+
+Quando si ha a che fare con lo spazio, si possono avere posizioni spaziali:
+
+1. di tipo **continuo**, come la latitudine e la longitudine,  
+
+2. in senso **discreto**, come le regioni. 
+
+La latitudine e la longitudine sono in realtÃ  **centroidi** dell'unitÃ  di area, quindi tecnicamente questo potrebbe essere usato anche come esempio discreto basato sull'unitÃ .
+
+
+---
+
+# Modelli additivi generalizzati
+
+> Posizioni spaziali continue $\rightarrow$ **Processo gaussiano**.
+
+L'uso del processo gaussiano produce un risultato simile a una tecnica di modellazione spaziale tradizionale chiamata **kriging**. 
+
+Il GAM ci consentirÃ  di lisciare le nostre previsioni al di lÃ  dei punti che abbiamo nei dati per ottenere un quadro piÃ¹ completo della distribuzione della variabile dipendente nell'intera area.
+
+In R:
+
+```{r eval = FALSE}
+s(lon, lat, bs = 'gp', m = m)
+```
+
+L'argomento `m` seleziona la funzione di correlazione tra, rispettivamente, sferica, esponenziale e di Matern in base alla distanza tra i punti.
+
+---
+
+# Modelli additivi generalizzati
+
+
+> Locazioni spaziali discrete $\rightarrow$ **Markov random fields** (grafo non orientato).
+
+Questo comporta una penalitÃ  che si basa sulla **matrice di adiacenza** delle regioni, dove se ci sono $g$ regioni, la matrice di adiacenza Ã¨ una matrice di indicatori $g \times g$ con valori non nullo quando la regione $i$ Ã¨ connessa alla regione $j$, e $0$ altrimenti. Quindi, Ã¨ necessario specificare la struttura di adiacenza delle osservazioni come un elenco `nb`.
+
+In R:
+
+```{r, eval = FALSE}
+s(x, bs="mrf", xt = nb)
+```
+
+dove `x` Ã¨ una variabile categoriale che fornisce le etichette per i distretti geografici, mentre `xt` specifica la struttura di adiacenza, ad esempio una lista. In `help(mrf)` potete trovare ulteriori dettagli.
+
+---
+
+# Modelli additivi generalizzati
+
+>PRO:
+
+- I GAM ci permettono di stimare una $f_j$ non lineare a ogni $X_j$, in modo da poter modellare automaticamente le relazioni **non lineari** che la regressione lineare standard non riesce a catturare. CiÃ² significa che non Ã¨ necessario provare manualmente molte trasformazioni diverse su ogni singola variabile;
+
+- Le regressioni non lineari possono potenzialmente fornire previsioni piÃ¹ **accurate** per la risposta $Y$;
+
+- PoichÃ© il modello Ã¨ **additivo**, possiamo esaminare l'effetto di ogni $X_j$ su $Y$ individualmente, mantenendo fisse tutte le altre variabili.
+
+- La funzione di lisciamento $f_j$ per la variabile $X_j$ puÃ² essere riassunta attraverso i **gradi di libertÃ  effettivi** (*N.B*: Se il numero effettivo di gradi di libertÃ  Ã¨ pari a $1$, il modello suggerisce che l'effetto della covariata Ã¨ lineare).
+---
+
+# Modelli additivi generalizzati
+
+> CONTRO:
+
+- Il limite principale dei GAM Ã¨ che il modello Ã¨ **limitato all'additivitÃ **, non catturando interazioni importanti. Tuttavia, come nel caso della regressione lineare, possiamo aggiungere manualmente termini di interazione al modello GAM includendo predittori aggiuntivi della forma $X_j \times X_k$. Inoltre, Ã¨ possibile aggiungere al modello funzioni che descrivono l'interazione come $f_{jk}(X_j,X_k)$, ovvero lisciamenti bidimensionali come la regressione locale o _spline_ bidimensionali.
+
+Qui potete trovare ulteriori informazioni sui GAM: https://www.maths.ed.ac.uk/~swood34/.
+
+---
+
+# Modelli additivi generalizzati
+
+> To sum up:
+
+- **Facili da interpretare**: l'interpretazione dell'impatto marginale di una singola variabile (la derivata parziale) non dipende dai valori delle altre variabili del modello (essendo il GAM un modello additivo);
+
+- **FlessibilitÃ **: le funzioni predittive possono scoprire patterns nascosti nei dati evitando le forti assunzioni lineari dei modelli lineari.
+
+- **Evitare l'overfitting**: la regolarizzazione delle funzioni predittive controlla il lisciamento delle funzioni predittive per evitare l'overfitting affrontando il trade off distorsione/varianza.
+
+
+> Quando il modello contiene effetti **non lineari**, il GAM fornisce una soluzione regolarizzata e interpretabile. In altre parole, i GAM raggiungono un **buon equilibrio** tra il
+modello lineare interpretabile, ma distorto, e gli algoritmi di apprendimento _black box_, estremamente flessibili.
+
+---
+
+# Modelli additivi generalizzati
+
+```{r, echo = FALSE, fig.align = 'center'}
+ggplot(Boston, aes(x = lstat, y = medv) ) +
+   geom_point(size = 2, col = "darkred") + theme_classic() +
+ xlab("% di persone con stato socio-economico basso (no istruzione superiore e operai)") + ylab("Valore mediano delle case occupate dai proprietari in 1000 dollari.") + ggtitle("Valori delle abitazioni nei sobborghi di Boston")+ 
+  stat_smooth(method = "gam", formula = y ~ s(x))
+```
+
+
+---
+class: inverse, center, middle
+
+# Take home messages
+
+
+---
+
+# Take home messages
+
+1 . La **regressione polinomiale** estende il modello lineare con l'aggiunta di predittori supplementari, ottenuti elevando ciascuno dei predittori originali a una potenza $\rightarrow$ funzione `R`: `poly`.
+
+2 . Le **funzioni a gradini** tagliano l'intervallo di una variabile in $K$ regioni distinte per produrre una variabile qualitativa. Questo ha l'effetto di stimare una funzione costante a gradini $\rightarrow$ funzione `R`: `cut`.
+
+3 . Le **_spline_ di regressione** sono piÃ¹ flessibili dei polinomi e delle funzioni a gradini, e di fatto sono una loro estensione. Si tratta di dividere l'intervallo di $X$ in $K$ regioni distinte. All'interno di ciascuna regione, una funzione polinomiale viene stimata.  $\rightarrow$ funzione `R`: `bs`.
+
+4 . I **Modelli additivi generalizzati** ci permettono di estendere i metodi precedenti per trattare predittori multipli $\rightarrow$ funzione `R`: `gam`.
+
+
+
+
+---
+
+# Bibliografia
+
+- Hastie, T., Tibshirani, R., Friedman, J. H., & Friedman, J. H. (2009). The elements of statistical learning: data mining, inference, and prediction (Vol. 2, pp. 1-758). New York: springer.
+
+- Hastie, T., & Tibshirani, R. (1987). Generalized additive models: some applications. Journal of the American Statistical Association, 82(398), 371-386.
+
+- Wood, S. N. (2006). Generalized additive models: an introduction with R. chapman and hall/CRC.
+
+- Wang, Y. (2011). Smoothing splines: methods and applications. CRC press.
+
+- https://fromthebottomoftheheap.net/2014/05/09/modelling-seasonal-data-with-gam/
+
+- https://fromthebottomoftheheap.net/2017/10/19/first-steps-with-mrf-smooths/

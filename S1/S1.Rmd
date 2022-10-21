@@ -384,7 +384,7 @@ class: inverse, center, middle
 
 --
 
-1. Understand basic R commands inside an **Rmarkdown** environment.
+1. Create an **Rmarkdown** file.
 
 ```{r,echo=FALSE, fig.align = "center"}
 knitr::include_graphics("https://tenor.com/view/kios-angry-computer-stare-gif-16068406.gif")
@@ -475,15 +475,17 @@ knitr::include_graphics("github_desktop.PNG")
 ---
 ### GitHub
 
-- **Name**: here you must put the repository name. I suggested to put the same name used for the Rstudio project
+- **Name**: here you must put the repository name (same name used for the Rstudio project);
 
 --
 
-- **Description**: here you can put a description of the project,
+- **Description**: here you can put a description of the project;
 
 --
 
-- **Local path**: here you must put the path where the Rstudio project is. There is also the option `Choose..` for navigating directly into your computer.
+- **Local path**: here you must put the path where the Rstudio project is. There is also the option `Choose..` for navigating directly into your computer;
+
+--
 
 - **Inizialize the repository with a README**: flag it! Here you must describe what the repository contains.
 
@@ -494,10 +496,302 @@ then click on `Create repository`!
 
 and `Publish repository`!
 
-```{r, echo = FALSE, out.width = 400}
+```{r, echo = FALSE, out.width = 1000}
 knitr::include_graphics("github_desktop1.PNG")
 ```
 
+---
+### GitHub
+
 > **Every time that you make a change on your Rstudio projects, you can push these changes in the GitHub repositories**
 
-fsfsdfs
+```{r, echo = FALSE, out.width = 1000}
+knitr::include_graphics("github_desktop2.PNG")
+```
+
+---
+### GitHub
+
+- **PUSH**: Changes in the local repository go to the GitHub repository
+
+--
+
+- **PULL**: Changes in the GitHub repository goes to the local repository
+
+Here, I present the *easier* way to manage GitHub with Rstudio. However, Rstudio has the possibility to manage GitHub directly using Git. For more details:
+
+- [https://rfortherestofus.com/2021/02/how-to-use-git-github-with-r/](https://rfortherestofus.com/2021/02/how-to-use-git-github-with-r/)
+
+- [https://annakrystalli.me/talks/r-in-repro-research.html#27](https://annakrystalli.me/talks/r-in-repro-research.html#27)
+
+So, everything is ready for creating an `Rmarkdown` project!
+
+---
+
+### Before Rmarkdown
+
+let see how `Rstudio` is constructed:
+
+```{r, echo = FALSE}
+knitr::include_graphics("rstudio.PNG")
+```
+
+---
+
+### Rmarkdown Document
+
+To use R Markdown, you have to install `R` and the `R` package `rmarkdown`. I will talk about packages later. Simply write on `Rstudio` console (third window):
+
+```{r, eval = FALSE}
+install.packages("rmarkdown")
+```
+
+
+Rmarkdown (`.Rmd)` integrates:
+
+- a documentantion language (`.md`)
+
+- a programming language (`R`)
+
+- functionality to "knit" them together through `knitr`
+
+Features
+
+- provides a framework for writing narratives around code and data
+
+- code re-run in a clean environment every time the document is "knit"
+
+---
+
+### Rmarkdown Document
+
+Clicking on `File > New File > RMarkdown... > Document` you will create the following `RMarkdown` file:
+
+```{r, echo = FALSE, out.width = 1000}
+knitr::include_graphics("rmarkdown.PNG")
+```
+
+---
+
+### Rmarkdown Document
+
+Clicking on `r emo::ji("knit")` `Knit` you will create the following `html` file:
+
+```{r, echo = FALSE, out.width = 1000}
+knitr::include_graphics("rmarkdown1.PNG")
+```
+
+---
+
+### R Markdown Document - Components
+
+Observe also that the document has three components
+
+- YAML: Setting Metadata
+
+--
+
+- text: your text
+
+--
+
+- code chunks: your `R` script
+
+```{r, echo = FALSE, out.width = 1000}
+knitr::include_graphics("rmarkdown2.PNG")
+```
+
+---
+
+### R Markdown Document - YAML
+
+- `.Rmd` documents start with YAML which  includes the metadata variables e.g., title, output format. It is written between a pair of three hyphens -
+
+--
+
+- Documents as output formats include HTML, LaTeX, PDF, Word, e.g.,
+
+```{r, eval = FALSE}
+title: "Untitled"
+author: "Angela Andreella"
+date: "2022-10-21"
+output: word_document
+```
+
+other are: `html_document`, `pdf_document`, `latex_document`, `odt_document`, `github_document`, `md_document`, `rtf_document`, `powerpoint_presentation`, `beamer_presentation`, `iosslides_presentation`, `slidy_presentation`.
+
+---
+
+### R Markdown Document - YAML
+
+You can also specify:
+
+- `bibliography` as `.bib` file (it must be in the same folder of the `.Rmd` file) or specify the full path where the `.bib` file is.
+
+```{r, eval = FALSE}
+title: "Untitled"
+author: "Angela Andreella"
+date: "2022-10-21"
+output: word_document
+bibliography: references.bib
+```
+
+There are many other options, see [here](https://bookdown.org/yihui/rmarkdown-cookbook)
+
+---
+
+### R Markdown Document - Text
+
+- Multiple spaces on a given line are reduced to one
+
+- Line endings with fewer than two spaces are ignored
+
+- Two or more spaces at the end of lines introduce hard breaks, forcing a new line
+
+- Spaces on lines that start with a vertical line `|` are kept
+
+- Lines starting with the greater-than sign `>` introduce block quotes
+
+- One or more blank lines introduce a new paragraph
+
+- Text with the syntax `<!--comments -->` is omitted from output
+
+---
+
+### R Markdown Document - Text
+
+- The number sign `#` introduces headers; lower levels are created with additional signs - up to total five levels
+
+- `*italics*` becomes *italics*
+
+- `*bold*` becomes *bold*
+
+- `**_bolditalics_**` becomes **_bolditalics_**
+
+- `~~strikethrough~~` becomes ~~strikethrough~~
+
+- `[see this website](https://www.youtube.com/watch?v=FpCrY7x5nEE)` becomes [see this website](https://www.youtube.com/watch?v=FpCrY7x5nEE)
+
+- `[email me](mailto:angela.andreella@unive.it)` becomes [email me](mailto:angela.andreella@unive.it)
+
+---
+
+### R Markdown Document - Text
+
+- Inline equations go between a pair of single dollar signs `$` - with no space between the signs and the equation itself:
+
+    `$E = mc^{2}$` becomes $E = mc^{2}$
+
+- Block equations go in between a pair of double dollar signs - with or without spaces, it works:
+
+    `$$E = mc^{2}$$` becomes $$E = mc^{2}$$
+
+---
+
+### R Markdown Document - Text
+
+- Lines starting with asterisk * as well as plus + or minus ??? signs introduce lists
+
+```{r, eval = FALSE}
+- books
+- articles
+- reports
+```
+
+- books
+- articles
+- reports
+
+
+---
+
+### R Markdown Document - Text
+
+Lists can be nested within each other, with indentation
+
+
+```{r, eval = FALSE}
++ books
++ articles
+    - published
+    - under review
+        + revised and resubmitted
+    - work in progress
+```
+
++ books
++ articles
+    - published
+    - under review
+        + revised and resubmitted
+    - work in progress
+    
+---
+
+### R Markdown Document - Text   
+
+List items can be numbered
+
+```{r, eval = FALSE}
+1. books
+2. articles
+    - published
+    - under review
+        + revised and resubmitted
+    - work in progress
+```
+
+1. books
+2. articles
+    - published
+    - under review
+        + revised and resubmitted
+    - work in progress
+    
+---
+
+### Managing References
+
+References are defined in .bib files, they follow the BibTeX format
+
+You can take the reference in the BibTex format directly from google scholar:
+
+```{r, echo = FALSE}
+knitr::include_graphics("rmarkdown3.PNG")
+```
+
+---
+
+### Managing References
+
+All citations keys take the 'at' sign `@` while square brackets and/or minus signs introduce variation
+
+```{r, echo = FALSE}
+knitr::include_graphics("rmarkdown4.PNG")
+```
+
+The list of references appears after the last line of the output document, with no section header. So that you can choose the header yourself, by ending .Rmd documents with a header of your choice
+
+---
+
+### R Markdown Document - Code
+
+Most codes go inside code chunks, delimited between a pair of three backticks ```
+
+```{r, echo = FALSE}
+knitr::include_graphics("rmarkdown5.PNG")
+```
+
+Codes can also go in line with text using 
+
+```{r, echo = FALSE}
+knitr::include_graphics("rmarkdown6.PNG")
+```
+
+On the same line with the first delimiter, and in curly brackets `{`, code chunks take
+
+ - a language engine, e.g., `R`, `Python`..
+ 
+ - a label
+ 
+ - one or more options, e.g., `include`, `echo`, `out.width`,..
