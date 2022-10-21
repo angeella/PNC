@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>STATISTICS - First module</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Angela Andreella" />
+    <meta name="date" content="2022-03-11" />
+    <script src="S1_files/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# STATISTICS - First module
+]
+.subtitle[
+## Reproducibility in Neuroscience
+]
+.author[
+### Angela Andreella
+]
+.date[
+### 03/11/2022
+]
+
+---
+
+class: highlight-last-item
+
+
+
+
+
+class: text-align-center
+
+
+ &lt;font size="20"&gt;&lt;p style="text-align: center;"&gt;"Non-reproducible single occurrences are of no significance to science."&lt;/p&gt; &lt;/font&gt;
+
+&lt;font size="5"&gt;&lt;p style="text-align: right;"&gt; Popper (1959)&lt;/p&gt;&lt;/font&gt;
+
+---
+class: highlight-last-item
+
+### What is reproducibility?
+
+*&lt;p style="text-align: center;"&gt;"Reproducibility refers to the ability of a researcher to duplicate the results of a prior study using the same materials as were used by the original investigator. That is, a second researcher might use the same raw data to build the same analysis files and implement the same statistical analysis in an attempt to yield the same results. Reproducibility is a minimum necessary condition for a finding to be believable and informative."&lt;/p&gt;*
+
+[Report of the Subcommittee on Replicability in Science Advisory Committee to the National Science Foundation Directorate for Social, Behavioral, and Economic Sciences](https://www.nsf.gov/sbe/AC_Materials/SBE_Robust_and_Reliable_Research_Report.pdf)
+
+The results obtained from an experiment, observational study or statistical analysis of a dataset must be repeated with a **high degree of confidence** when the study is repeated. So:
+
+- All **results** should be documented, making all **data** and **code** available so that calculations can be run again with identical results.
+
+--
+
+- In recent decades, there has been a growing concern that many published scientific results fail reproducibility tests, giving rise to a **reproducibility crisis**.
+
+--
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+---
+class: highlight-last-item
+
+### When did the replicability crisis begin?
+
+A 2016 [survey](https://www.nature.com/articles/533452a) in Nature revealed that irreproducible experiments are a problem across all domains of science:
+
+&lt;img src="reproducibility_nature.jpg" width="700" style="display: block; margin: auto;" /&gt;
+
+---
+class: highlight-last-item
+
+### When we fall into it?
+
+- Not enough **documentation** on how experiment is conducted and data is generated
+
+--
+
+- **Data** used to generate original results unavailable
+
+--
+
+- **Software** used to generate original results unavailable
+
+--
+
+- Difficult to recreate software environment (libraries, versions) used to generate original results
+
+--
+
+- Difficult to rerun the computational step
+
+&lt;img src="Miracle.jpg" width="600" style="display: block; margin: auto;" /&gt;
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+---
+class: highlight-last-item
+
+A published article is like the top of a **pyramid**. It rests on multiple levels that each contributes to its **reproducibility**.
+
+&lt;br/&gt;&lt;br/&gt;
+
+
+&lt;img src="repro-pyramid.png" width="640" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Reproducible, replicable, robust, generalisable
+
+While **reproducibility** is the minimum requirement and can be solved with "good enough" computational practices, **replicability/robustness/generalisability** of scientific findings are an even greater concern involving research misconduct, questionable research practices (p-hacking, HARKing, cherry-picking), sloppy methods, and other conscious and unconscious biases.
+
+&lt;img src="39-reproducible-replicable-robust-generalisable.jpg" width="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: highlight-last-item
+
+## The world is on the move...
+
+&lt;img src="S1_files/figure-html/unnamed-chunk-7-1.png" width="500" style="display: block; margin: auto;" /&gt;
+
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+---
+class: highlight-last-item
+
+### How to make a reproducible research
+
+
+- Share **data** (raw and pre-processed ones): The lack of data sharing is an obstacle to international research (be it academic, governmental, or commercial) for two main reasons:
+
+    - It is generally difficult or impossible to reproduce a study without the original data.
+
+    - The data cannot be reused or incorporated into new work by other researchers if they cannot obtain access to it.
+
+
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+---
+class: highlight-last-item
+
+### How to make a reproducible research
+
+
+- Share **code** used for the analysis (clearly commented): ode sharing enables others to be able to
+
+    - understand (to read and analyze) the computational parts of the work done in the article.
+    
+    - reproduce (run) the computational parts of the work done in the article. 
+    
+    - build on code used in the computational parts of the work done in the article, for their own work.
+    
+    - add to the code used in the computational parts of the work done in the article, to improve it.
+    
+    - cite the software and credit its authors when they use it.
+
+--
+
+- Write **reproducible scientific paper**
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+---
+class: highlight-last-item
+
+## Ingredients - share data and code
+
+- [Datalad](https://www.datalad.org/): DataLad is a free and open source distributed data management system that keeps track of your data, creates structure, ensures reproducibility, supports collaboration, and integrates with widely used data infrastructure.
+
+--
+
+- [OpenNeuro](https://openneuro.org/): A free and open platform for validating and sharing BIDS-compliant MRI, PET, MEG, EEG, and iEEG data.
+
+--
+
+- [GitHub](https://github.com/): GitHub is an online software development platform used for storing, tracking, and collaborating on software projects. It enables developers to upload their own code files and to collaborate with fellow developers on open-source projects.
+
+--
+
+- [Zenodo](https://zenodo.org/): Zenodo is a general-purpose open repository developed under the European OpenAIRE program and operated by CERN. It allows researchers to deposit research papers, data sets, research software, reports, and any other research related digital artefacts. For each submission, a persistent digital object identifier (DOI) is minted, which makes the stored items easily citeable.
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+
+---
+class: highlight-last-item
+
+## Ingredients - write reproducible papers
+
+- **Rmarkdown**:
+
+
+  - **Efficient**:
+    - write text, cite sources, tidy data, analyse, table, and plot it in one programme/screen
+  
+    - re-do one, more, or all of these with ease `\(\rightarrow\)` decrease the possibility of making mistakes in the process
+
+--
+
+  - **Flexible**: output to various formats (e.g., HTML, LaTeX, PDF, Word)
+
+--
+
+  - **Open access/source**:
+    - use for free
+    - create documents accessible to anyone with a computer and internet connection
+    - benefit from the work of a great community of users/developers
+
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+---
+class: highlight-last-item
+
+## Ingredients - write reproducible papers
+
+**Reproducibilty - Before Publication**:
+
+- Having written a complete draft with data including re-coded variables, tables, figures, and text with references to specific results (e.g., numbers from summary and/or regression statistics)
+
+--
+
+- If you and/or your co-authors decide to reverse a re-coded variable to its previous/original measure and/or, to exclude a subgroup of observations from analysis
+
+--
+
+- Draft written as completely reproducible draft which leads to easy revision of the analysis after receving some comments from journal's reviewers.
+
+**Reproducibilty - After Publication**:
+
+- After your paper is published, if others, including your future self, would like to test how robust the results are
+
+  - to reversing a re-coded variable to its previous/original measure
+  - and/or, to excluding a subgroup of observations from analysis
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+
+---
+
+## Further reading on reproducibility and open science
+
+
+- [The Turing way](https://the-turing-way.netlify.app/community-handbook/community-handbook.html)
+
+--
+
+- Good talks on open reproducible research can be found [here](https://inundata.org/talks/index.html).
+
+--
+
+- [Poldrack, R. A. (2019). The costs of reproducibility. Neuron, 101(1), 11-14.](https://www.sciencedirect.com/science/article/pii/S0896627318310390)
+
+- [Wicherts, Jelte M., Marjan Bakker, and Dylan Molenaar. "Willingness to share research data is related to the strength of the evidence and the quality of reporting of statistical results." PloS one 6.11 (2011): e26828.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0026828)
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+---
+
+&lt;br/&gt;&lt;br/&gt;
+&lt;br/&gt;&lt;br/&gt;
+&lt;br/&gt;&lt;br/&gt;
+
+&lt;img src="research_comic_phd.gif" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: inverse, center, middle
+
+# Let's start!!
+
+
+---
+## First steps
+
+1. Create an **Rstudio project**
+
+--
+
+1. Link the **Rstudio project** to a **GitHub** repository
+
+--
+
+1. Understand basic R commands inside an **Rmarkdown** environment.
+
+&lt;img src="https://tenor.com/view/kios-angry-computer-stare-gif-16068406.gif" style="display: block; margin: auto;" /&gt;
+
+---
+### Using RStudio Projects
+
+RStudio projects make it straightforward to divide your work into multiple contexts, each with their own working directory, workspace, history, and source documents.
+
+To create a new project in the RStudio IDE, use the Create Project command (available on the Projects menu and on the global toolbar):
+
+&lt;img src="projects_new.png" width="371" style="display: block; margin: auto;" /&gt;
+
+
+---
+### Using RStudio Projects
+
+When a new project is created RStudio:
+
+- Creates a project file (with an .Rproj extension) within the project directory. This file contains various project options (discussed below) and can also be used as a shortcut for opening the project directly from the filesystem.
+
+--
+
+- Creates a hidden directory (named .Rproj.user) where project-specific temporary files (e.g. auto-saved source documents, window-state, etc.) are stored. This directory is also automatically added to .Rbuildignore, .gitignore, etc. if required.
+
+--
+
+- Loads the project into RStudio and display its name in the Projects toolbar (which is located on the far right side of the main toolbar).
+
+---
+### Using Rstudio projects
+
+There are several ways to open a project:
+
+- Using the Open Project command (available from both the Projects menu and the Projects toolbar) to browse for and select an existing project file (e.g. MyProject.Rproj).
+
+--
+
+- Selecting a project from the list of most recently opened projects (also available from both the Projects menu and toolbar).
+
+--
+
+- Double-clicking on the project file within the system shell (e.g. Windows Explorer, OSX Finder, etc.).
+
+---
+### Using Rstudio Projects
+
+When a project is opened within RStudio the following actions are taken:
+
+- A new R session (process) is started
+
+--
+
+- The .Rprofile file in the project's main directory (if any) is sourced by R
+
+--
+
+- The .RData file in the project's main directory is loaded (if project options indicate that it should be loaded).
+
+--
+
+- The .Rhistory file in the project's main directory is loaded into the RStudio History pane (and used for Console Up/Down arrow command history).
+
+--
+
+- The current working directory is set to the project directory.
+
+--
+
+- Previously edited source documents are restored into editor tabs
+
+--
+
+- Other RStudio settings (e.g. active tabs, splitter positions, etc.) are restored to where they were the last time the project was closed.
+
+---
+### GitHub
+
+Open GitHub Desktop and go to `Add &gt; Create new repository`
+  
+&lt;img src="github_desktop.PNG" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+### GitHub
+
+- **Name**: here you must put the repository name. I suggested to put the same name used for the Rstudio project
+
+--
+
+- **Description**: here you can put a description of the project,
+
+--
+
+- **Local path**: here you must put the path where the Rstudio project is. There is also the option `Choose..` for navigating directly into your computer.
+
+- **Inizialize the repository with a README**: flag it! Here you must describe what the repository contains.
+
+then `Create repository!`
+
+---
+### GitHub
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

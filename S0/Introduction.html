@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>STATISTICS - First module</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Angela Andreella" />
+    <meta name="date" content="2022-03-11" />
+    <script src="Introduction_files/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# STATISTICS - First module
+]
+.subtitle[
+## Introduction
+]
+.author[
+### Angela Andreella
+]
+.date[
+### 03/11/2022
+]
+
+---
+
+class: highlight-last-item
+
+
+
+
+
+- Something about me:
+
+    - PhD in Statistics at UNIPD `\(\rightarrow\)` **statistical methods for improving fMRI and EEG data analysis**,
+
+    - now Assistant Professor at Ca' Foscari University of Venice in social statistics. 
+    
+--
+
+- **Research interest**: 
+  - modelling complex and high-dimensional data, 
+  - nonparametric statistical tests, 
+  - multiple inference methods, 
+  - statistical shape analysis,
+  - statistical methods with application in social, psychological, medical and neuroscience fields.
+  
+--
+
+- **E-mail**: angela.andreella at unive.it
+
+--
+
+- **Zoom**: [https://unive.zoom.us/j/4122209308](https://unive.zoom.us/j/4122209308)
+
+---
+
+- Member of **Psicostat**! an interdisciplinary research group interested in Psychology and Statistics, our goal is to promote the connection between the two fields! If you want to know more about our activities visit our website [https://psicostat.dpss.psy.unipd.it/](https://psicostat.dpss.psy.unipd.it/) or add yourself to our mailing list [https://lists.dpss.psy.unipd.it/postorius/lists](https://lists.dpss.psy.unipd.it/postorius/lists).
+
+&lt;img src="psicostat.png" width="667" style="display: block; margin: auto;" /&gt;
+---
+class: highlight-last-item
+
+## Course outline
+
+- **Reproducibility in Neuroscience**: main concepts, when we fall into it, and how to fix it,
+
+--
+
+- **Introduction to the programming language `R`, and notebooks**, i.e. a solution for having reproducible results: basic `R` commands and basics of `Rmarkdown`,
+
+--
+
+- **Exploratory Data Analysis (EDA)**, i.e. how to start with data analysis:
+
+  - Structure and summary of data
+  
+  - Exploratory plots
+  
+  - Preprocessing step
+--
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+---
+## Get started
+
+You must install:
+
+- `R` `\(\rightarrow\)` [https://cran.r-project.org/](https://cran.r-project.org/)
+
+--
+
+- `Rstudio`, i.e., integrated development environment (IDE) for making R easier to utilize `\(\rightarrow\)` [https://www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download)
+
+--
+
+- `GitHub desktop` permits to share code and data `\(\rightarrow\)` [https://desktop.github.com/](https://desktop.github.com/)
+
+after creating a [GitHub account](https://github.com/).
+
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+
+---
+
+## Some references
+
+- **R cookbook**: [https://rc2e.com/](https://rc2e.com/)
+
+--
+
+- **Rmarkdown cookbook**: [https://bookdown.org/yihui/rmarkdown-cookbook/](https://bookdown.org/yihui/rmarkdown-cookbook/)
+
+--
+
+- **Exploratory data analysis with R** [https://bookdown.org/rdpeng/exdata/principles-of-analytic-graphics.html](https://bookdown.org/rdpeng/exdata/principles-of-analytic-graphics.html)
+
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+&lt;/style&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

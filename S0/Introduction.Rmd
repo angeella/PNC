@@ -1,0 +1,145 @@
+---
+title: "STATISTICS - First module"
+subtitle: "Introduction"
+author: "Angela Andreella"
+date: "03/11/2022"
+output:
+  xaringan::moon_reader:
+        css: xaringan-themer.css
+---
+class: highlight-last-item
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.retina = 2, fig.align = "center")
+options(htmltools.dir.version = FALSE,scipen = 2,digits=3)
+library(dplyr)
+library(kableExtra)
+library(epitools)
+```
+
+```{r xaringan-themer, echo = FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#ac0033", 
+                 white_color = "white", 
+                 text_color = "black",
+                 code_font_family = "Fira Code",
+                 code_font_url = "https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css")
+```
+
+- Something about me:
+
+    - PhD in Statistics at UNIPD $\rightarrow$ **statistical methods for improving fMRI and EEG data analysis**,
+
+    - now Assistant Professor at Ca' Foscari University of Venice in social statistics. 
+    
+--
+
+- **Research interest**: 
+  - modelling complex and high-dimensional data, 
+  - nonparametric statistical tests, 
+  - multiple inference methods, 
+  - statistical shape analysis,
+  - statistical methods with application in social, psychological, medical and neuroscience fields.
+  
+--
+
+- **E-mail**: angela.andreella at unive.it
+
+--
+
+- **Zoom**: [https://unive.zoom.us/j/4122209308](https://unive.zoom.us/j/4122209308)
+
+---
+
+- Member of **Psicostat**! an interdisciplinary research group interested in Psychology and Statistics, our goal is to promote the connection between the two fields! If you want to know more about our activities visit our website [https://psicostat.dpss.psy.unipd.it/](https://psicostat.dpss.psy.unipd.it/) or add yourself to our mailing list [https://lists.dpss.psy.unipd.it/postorius/lists](https://lists.dpss.psy.unipd.it/postorius/lists).
+
+```{r,echo=FALSE, fig.align = "center"}
+knitr::include_graphics("psicostat.png")
+```
+---
+class: highlight-last-item
+
+## Course outline
+
+- **Reproducibility in Neuroscience**: main concepts, when we fall into it, and how to fix it,
+
+--
+
+- **Introduction to the programming language `R`, and notebooks**, i.e. a solution for having reproducible results: basic `R` commands and basics of `Rmarkdown`,
+
+--
+
+- **Exploratory Data Analysis (EDA)**, i.e. how to start with data analysis:
+
+  - Structure and summary of data
+  
+  - Exploratory plots
+  
+  - Preprocessing step
+--
+
+```{css echo=FALSE}
+.highlight-last-item > ul > li, 
+.highlight-last-item > ol > li {
+  opacity: 0.5;
+}
+.highlight-last-item > ul > li:last-of-type,
+.highlight-last-item > ol > li:last-of-type {
+  opacity: 1;
+}
+``` 
+
+---
+## Get started
+
+You must install:
+
+- `R` $\rightarrow$ [https://cran.r-project.org/](https://cran.r-project.org/)
+
+--
+
+- `Rstudio`, i.e., integrated development environment (IDE) for making R easier to utilize $\rightarrow$ [https://www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download)
+
+--
+
+- `GitHub desktop` permits to share code and data $\rightarrow$ [https://desktop.github.com/](https://desktop.github.com/)
+
+after creating a [GitHub account](https://github.com/).
+
+
+```{css echo=FALSE}
+.highlight-last-item > ul > li, 
+.highlight-last-item > ol > li {
+  opacity: 0.5;
+}
+.highlight-last-item > ul > li:last-of-type,
+.highlight-last-item > ol > li:last-of-type {
+  opacity: 1;
+}
+``` 
+
+---
+
+## Some references
+
+- **R cookbook**: [https://rc2e.com/](https://rc2e.com/)
+
+--
+
+- **Rmarkdown cookbook**: [https://bookdown.org/yihui/rmarkdown-cookbook/](https://bookdown.org/yihui/rmarkdown-cookbook/)
+
+--
+
+- **Exploratory data analysis with R** [https://bookdown.org/rdpeng/exdata/principles-of-analytic-graphics.html](https://bookdown.org/rdpeng/exdata/principles-of-analytic-graphics.html)
+
+
+```{css echo=FALSE}
+.highlight-last-item > ul > li, 
+.highlight-last-item > ol > li {
+  opacity: 0.5;
+}
+.highlight-last-item > ul > li:last-of-type,
+.highlight-last-item > ol > li:last-of-type {
+  opacity: 1;
+}
+``` 

@@ -1,0 +1,3 @@
+dd = read.csv("bad_health.csv")
+tt = xtabs(tot~ sex + educ + econ,data = dd[dd$age > 60,])
+TT = as.data.frame(tt)
