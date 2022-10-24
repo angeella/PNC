@@ -1,0 +1,29 @@
+---
+title: "Exploratory Data Analysis"
+subtitle: "How to start with data analysis"
+author: "Angela Andreella"
+date: "2022-11-17"
+output: 
+    html_document:
+        toc: TRUE
+        number_sections: TRUE
+        theme: united
+        highlight: tango
+        css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Exploratory Data Analysis (EDA) can be roughly summarized in 3
+parts: 
+
+1. **Structure and summary of data**,
+
+2. **Exploratory plots** 
+
+3. **Preprocessing step**
+
+
+

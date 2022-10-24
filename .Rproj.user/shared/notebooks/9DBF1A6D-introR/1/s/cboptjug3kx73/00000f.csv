@@ -1,0 +1,4 @@
+"0","X <- array(data = rnorm(2*3*5), dim(2,3,5))
+"
+"2","Error in dim(2, 3, 5) : 3 arguments passed to 'dim' which requires 1
+"

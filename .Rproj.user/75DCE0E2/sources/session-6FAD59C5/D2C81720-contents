@@ -1,0 +1,8 @@
+
+- `r knitr::include_graphics("table.PNG")` produces: 
+  
+  First Column  Second Column 
+------------  ------------- 
+  First cell    First cell      
+Second cell   Second cell   
+Third cell    Third cell
