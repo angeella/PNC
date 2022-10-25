@@ -80,7 +80,7 @@ class: highlight-last-item
 A 2016 [survey](https://www.nature.com/articles/533452a) in Nature revealed that irreproducible experiments are a problem across all domains of science:
 
 ```{r,echo=FALSE, fig.align = "center", out.width=700}
-knitr::include_graphics("reproducibility_nature.jpg")
+knitr::include_graphics("Images/reproducibility_nature.jpg")
 ```
 
 ---
@@ -107,7 +107,7 @@ class: highlight-last-item
 - Difficult to rerun the computational step
 
 ```{r,echo=FALSE, fig.align = "center", out.width=600}
-knitr::include_graphics("Miracle.jpg")
+knitr::include_graphics("Images/Miracle.jpg")
 ```
 
 ```{css echo=FALSE}
@@ -130,7 +130,7 @@ A published article is like the top of a **pyramid**. It rests on multiple level
 
 
 ```{r,echo=FALSE, fig.align = "center"}
-knitr::include_graphics("repro-pyramid.png")
+knitr::include_graphics("Images/repro-pyramid.png")
 ```
 
 ---
@@ -140,7 +140,7 @@ knitr::include_graphics("repro-pyramid.png")
 While **reproducibility** is the minimum requirement and can be solved with "good enough" computational practices, **replicability/robustness/generalisability** of scientific findings are an even greater concern involving research misconduct, questionable research practices (p-hacking, HARKing, cherry-picking), sloppy methods, and other conscious and unconscious biases.
 
 ```{r,echo=FALSE, fig.align = "center", out.width=500}
-knitr::include_graphics("39-reproducible-replicable-robust-generalisable.jpg")
+knitr::include_graphics("Images/39-reproducible-replicable-robust-generalisable.jpg")
 ```
 
 
@@ -151,7 +151,7 @@ class: highlight-last-item
 
 ```{r, echo = FALSE, out.width = 500, warning = FALSE}
 library(ggplot2)
-load(file = "google.RData")
+load(file = "data/google.RData")
 
 df <- df %>% 
   dplyr::mutate(years = as.numeric(years)) %>%
@@ -379,7 +379,7 @@ and **reproducibility AFTER publication**:
 <br/><br/>
 
 ```{r, echo = FALSE}
-knitr::include_graphics("research_comic_phd.gif")
+knitr::include_graphics("Images/research_comic_phd.gif")
 ```
 
 
@@ -427,7 +427,7 @@ knitr::include_graphics("https://tenor.com/view/kios-angry-computer-stare-gif-16
 To create a new project in the `RStudio` IDE, use the `New Project` command (available on the `Projects` (top right corner) menu or go to `File > New Project`. You will have the following window:
 
 ```{r,echo=FALSE, fig.align = "center"}
-knitr::include_graphics("projects_new.png")
+knitr::include_graphics("Images/projects_new.png")
 ```
 
 
@@ -537,7 +537,7 @@ When a project is opened within `RStudio` the following actions are taken:
 Open `GitHub Desktop` and go to `Add > Create new repository`
   
 ```{r, echo = FALSE, out.width = 400}
-knitr::include_graphics("github_desktop.PNG")
+knitr::include_graphics("Images/github_desktop.PNG")
 ```
 
 ---
@@ -580,7 +580,7 @@ then click on `Create repository`!
 and `Publish repository`!
 
 ```{r, echo = FALSE, out.width = 1000}
-knitr::include_graphics("github_desktop1.PNG")
+knitr::include_graphics("Images/github_desktop1.PNG")
 ```
 
 ---
@@ -589,7 +589,7 @@ knitr::include_graphics("github_desktop1.PNG")
 > **Every time that you make a change on your `RStudio` projects, you can push these changes in the `GitHub` repositories**
 
 ```{r, echo = FALSE, out.width = 1000}
-knitr::include_graphics("github_desktop2.PNG")
+knitr::include_graphics("Images/github_desktop2.PNG")
 ```
 
 ---
@@ -631,7 +631,7 @@ So, everything is ready for creating our amazing `Rmarkdown` project!
 let see how `RStudio` is constructed:
 
 ```{r, echo = FALSE}
-knitr::include_graphics("rstudio.PNG")
+knitr::include_graphics("Images/rstudio.PNG")
 ```
 
 ---
@@ -666,7 +666,7 @@ install.packages("rmarkdown")
 Clicking on `File > New File > RMarkdown... > Document` you will create the following `RMarkdown` file:
 
 ```{r, echo = FALSE, out.width = 1000}
-knitr::include_graphics("rmarkdown.PNG")
+knitr::include_graphics("Images/rmarkdown.PNG")
 ```
 
 ---
@@ -676,7 +676,7 @@ knitr::include_graphics("rmarkdown.PNG")
 Clicking on `r emo::ji("knit")` `Knit` you will create the following `html` file:
 
 ```{r, echo = FALSE, out.width = 1000}
-knitr::include_graphics("rmarkdown1.PNG")
+knitr::include_graphics("Images/rmarkdown1.PNG")
 ```
 
 ---
@@ -698,7 +698,7 @@ The `Rmarkdown` document has three components:
 1. **Code chunks**: your `R` script
 
 ```{r, echo = FALSE, out.width = 1000}
-knitr::include_graphics("rmarkdown2.PNG")
+knitr::include_graphics("Images/rmarkdown2.PNG")
 ```
 
 ```{css echo=FALSE}
@@ -949,7 +949,7 @@ List items can be **numbered**:
 You can take the reference in the `BibTeX` format directly from google scholar:
 
 ```{r, echo = FALSE}
-knitr::include_graphics("rmarkdown3.PNG")
+knitr::include_graphics("Images/rmarkdown3.PNG")
 ```
 
 ---
@@ -959,7 +959,7 @@ knitr::include_graphics("rmarkdown3.PNG")
 All citations keys take the 'at' sign `@` while square brackets and/or minus signs introduce variation
 
 ```{r, echo = FALSE}
-knitr::include_graphics("rmarkdown4.PNG")
+knitr::include_graphics("Images/rmarkdown4.PNG")
 ```
 
 The list of references appears **after the last line of the output document, with no section header**. So that you can choose the header yourself, by ending ``.Rmd` documents with a header of your choice
@@ -972,13 +972,13 @@ class: highlight-last-item
 Most codes go inside **code chunks**, delimited between a pair of **three backticks** 
 
 ```{r, echo = FALSE}
-knitr::include_graphics("rmarkdown5.PNG")
+knitr::include_graphics("Images/rmarkdown5.PNG")
 ```
 
 Codes can also go in line with text using 
 
 ```{r, echo = FALSE}
-knitr::include_graphics("rmarkdown6.PNG")
+knitr::include_graphics("Images/rmarkdown6.PNG")
 ```
 
 On the same line with the first delimiter, and in curly brackets `{`, code chunks take
@@ -1096,7 +1096,7 @@ There are many ways to include a **figure** in a `Rmarkdown` document:
 
 --
 
-- `knitr::include_graphics("figure.extension")` in a code chuck.
+- `knitr::include_graphics("Images/figure.extension")` in a code chuck.
 
 --
 
