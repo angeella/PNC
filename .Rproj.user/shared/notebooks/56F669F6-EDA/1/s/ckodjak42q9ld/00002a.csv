@@ -1,0 +1,6 @@
+"0","ggplot(data = db, "
+"0","       mapping = aes(x = Age, y = Response_Time, color = Group)) + "
+"0","  geom_point() +"
+"0","  facet_wrap(. ~Sex)+"
+"0","       scale_colour_discrete(name = ""Group"", labels = c(""Individuals with Alzeihmer disease"", ""Healthy individuals"")) +"
+"0","  ylab(""Response time"")"

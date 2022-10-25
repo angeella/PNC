@@ -1,26 +1,27 @@
 {
-    "id": "DC82DDCC",
-    "path": "C:/Users/livio/Desktop/Capri_SummerSchool/practice_AA.Rmd",
+    "id": "C9782D19",
+    "path": "C:/Users/livio/Downloads/lab_011.Rmd",
     "project_path": null,
     "type": "r_markdown",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1666369326580.0,
+    "created": 1666617909517.0,
     "source_on_save": false,
-    "relative_order": 3,
+    "relative_order": 6,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "245,0",
-        "scrollLine": "242"
+        "cursorPosition": "251,395",
+        "scrollLine": "252",
+        "last_setup_crc32": "6FAD59C5cedc8dc4"
     },
     "folds": "",
-    "lastKnownWriteTime": 1664380561,
+    "lastKnownWriteTime": 1666617908,
     "encoding": "ISO8859-1",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1664380561,
+    "last_content_update": 1666693854650,
     "read_only": false,
     "read_only_alternatives": []
 }

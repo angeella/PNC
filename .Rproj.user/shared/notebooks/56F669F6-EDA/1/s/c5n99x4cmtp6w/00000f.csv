@@ -1,0 +1,1 @@
+"0","db <- db %>% mutate_if(is.character, as.factor)"

@@ -3,7 +3,7 @@
     "path": "C:/Users/livio/Desktop/PNC/S3/EDA.Rmd",
     "project_path": "S3/EDA.Rmd",
     "type": "r_markdown",
-    "hash": "1858078263",
+    "hash": "1805271245",
     "contents": "",
     "dirty": false,
     "created": 1666606294121.0,
@@ -13,15 +13,16 @@
         "tempName": "Untitled2",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "28,0",
-        "scrollLine": "14"
+        "cursorPosition": "652,170",
+        "scrollLine": "648",
+        "last_setup_crc32": "6FAD59C5bb338d19"
     },
     "folds": "",
-    "lastKnownWriteTime": 1666606425,
+    "lastKnownWriteTime": 1666694461,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1666606425130,
+    "last_content_update": 1666694461427,
     "read_only": false,
     "read_only_alternatives": []
 }
