@@ -1,5 +1,0 @@
-"0","ggplot(data = db, "
-"0","       mapping = aes(x = Response_Time)) + "
-"0","  geom_histogram(fill = ""red"") + "
-"0","  theme_classic() + "
-"0","  xlab(""Response time"")"

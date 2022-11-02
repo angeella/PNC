@@ -1,3 +1,0 @@
-"0","db <- db %>%"
-"0","  mutate(Sex = ifelse(Sex == 0, ""M"", ""F""),"
-"0","         Group = ifelse(Group == ""0"", ""Control"", ""Case""))"

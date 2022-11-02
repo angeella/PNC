@@ -1,3 +1,0 @@
-"0","ggplot(data = db, "
-"0","       mapping = aes(x = Group, fill = Sex)) + "
-"0","  geom_bar()"

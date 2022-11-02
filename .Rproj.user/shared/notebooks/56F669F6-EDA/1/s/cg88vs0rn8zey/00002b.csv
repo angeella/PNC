@@ -1,5 +1,0 @@
-"0","ggplot(data = db, "
-"0","       mapping = aes(x = Age, "
-"0","                     y = Response_Time, "
-"0","                     color = Group)) + "
-"0","  geom_point()"

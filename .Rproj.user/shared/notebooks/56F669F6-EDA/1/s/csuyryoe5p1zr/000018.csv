@@ -1,4 +1,0 @@
-"0","ggplot(data = db, "
-"0","       mapping = aes(x = Response_Time, group = Time)) + "
-"0","  geom_boxplot() + "
-"0","  facet_grid(. ~Group)"
