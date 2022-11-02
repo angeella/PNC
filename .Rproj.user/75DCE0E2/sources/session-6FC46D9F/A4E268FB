@@ -3,7 +3,7 @@
     "path": "C:/Users/livio/Desktop/PNC/S1/S1.Rmd",
     "project_path": "S1/S1.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "3124861717",
     "contents": "",
     "dirty": false,
     "created": 1666345983513.0,
@@ -12,16 +12,16 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "7,32",
-        "scrollLine": "0",
+        "cursorPosition": "570,2",
+        "scrollLine": "565",
         "last_setup_crc32": ""
     },
     "folds": "",
-    "lastKnownWriteTime": 1666694719,
+    "lastKnownWriteTime": 1667406997,
     "encoding": "ISO8859-1",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1666694719577,
+    "last_content_update": 1667406997152,
     "read_only": false,
     "read_only_alternatives": []
 }

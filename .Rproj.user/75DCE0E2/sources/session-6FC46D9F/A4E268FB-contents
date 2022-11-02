@@ -35,16 +35,7 @@ class: highlight-last-item
 
 The results obtained from an experiment, observational study or statistical analysis of a dataset should be repeated with a **high degree of confidence** when the study is replicated. 
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -61,21 +52,12 @@ In recent decades, there has been a growing concern that many published scientif
 
 --
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
 
-### When did the replicability crisis begin?
+### When did the reproducibility crisis begin?
 
 A 2016 [survey](https://www.nature.com/articles/533452a) in Nature revealed that irreproducible experiments are a problem across all domains of science:
 
@@ -110,16 +92,7 @@ class: highlight-last-item
 knitr::include_graphics("Images/Miracle.jpg")
 ```
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -165,16 +138,7 @@ ggplot(as.data.frame(table(df$years)), aes(x=Var1, y = Freq)) + geom_bar(stat="i
 ```
 
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -192,16 +156,6 @@ class: highlight-last-item
 
 
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
 
 ---
 class: highlight-last-item
@@ -235,16 +189,7 @@ class: highlight-last-item
 
 - Write **reproducible scientific paper**
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -265,16 +210,6 @@ class: highlight-last-item
 
 - [Zenodo](https://zenodo.org/): a general-purpose open repository developed under the European OpenAIRE program and operated by CERN. It allows researchers to **deposit research papers, data sets, research software, reports**, and any other research related digital artefacts. For each submission, a persistent digital object identifier (DOI) is minted, which makes the stored items easily citeable.
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
 
 
 ---
@@ -303,16 +238,7 @@ We will use **`Rmarkdown`** because it is:
 
 --
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -361,16 +287,7 @@ and **reproducibility AFTER publication**:
 
 - [Baker, M. (2016). Reproducibility crisis. Nature, 533(26), 353-66.](https://www.nature.com/articles/533452a)
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 
@@ -408,16 +325,7 @@ class: highlight-last-item
 knitr::include_graphics("https://tenor.com/view/kios-angry-computer-stare-gif-16068406.gif")
 ```
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 ### Using `RStudio` projects
@@ -448,16 +356,7 @@ When a new project is created `RStudio`:
 
 - **Loads the project** into `RStudio` and display its name in the `Projects` toolbar (which is located on the far right side of the main toolbar).
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -476,16 +375,7 @@ There are several ways to **open a project**:
 
 - Double-clicking on the project file within the system shell (e.g. Windows Explorer, OSX Finder, etc.).
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -498,15 +388,15 @@ When a project is opened within `RStudio` the following actions are taken:
 
 --
 
-- The `.Rprofile` file in the project's main directory (if any) is sourced by `R`
+- The `.Rprofile` file (user-controllable files to set options and environment variables) in the project's main directory (if any) is sourced by `R`
 
 --
 
-- The `.RData` file in the project's main directory is loaded (if project options indicate that it should be loaded).
+- The `.RData` file (where the objects are stored) in the project's main directory is loaded (if project options indicate that it should be loaded).
 
 --
 
-- The `.Rhistory` file in the project's main directory is loaded into the `RStudio History` window.
+- The `.Rhistory` file (a history of code executed, not written) in the project's main directory is loaded into the `RStudio History` window.
 
 --
 
@@ -520,16 +410,6 @@ When a project is opened within `RStudio` the following actions are taken:
 
 - Other `RStudio` settings (e.g. active tabs, splitter positions, etc.) are restored to where they were the last time the project was closed.
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
 
 ---
 ### `GitHub`
@@ -563,16 +443,7 @@ class: highlight-last-item
 
 then click on `Create repository`!
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 ### `GitHub`
@@ -601,7 +472,7 @@ class: highlight-last-item
 
 --
 
-- **PULL**: Changes in the `GitHub` repository goes to the local repository
+- **PULL**: Changes in the `GitHub` repository go to the local repository
 
 Here, I presented the *easiest* way to manage `GitHub` with `RStudio`. However, `RStudio` has the possibility to manage `GitHub` directly using `Git`. For more details:
 
@@ -613,22 +484,15 @@ Here, I presented the *easiest* way to manage `GitHub` with `RStudio`. However, 
 
 So, everything is ready for creating our amazing `Rmarkdown` project!
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 
 ### Before `Rmarkdown`...
 
-let see how `RStudio` is constructed:
+Let see how `RStudio` is constructed:
+
+--
 
 ```{r, echo = FALSE}
 knitr::include_graphics("Images/rstudio.PNG")
@@ -644,6 +508,7 @@ To use R `Markdown`, you have to install `R` and the `R` package `rmarkdown`. I 
 install.packages("rmarkdown")
 ```
 
+--
 
 `Rmarkdown` (`.Rmd)` integrates:
 
@@ -652,6 +517,8 @@ install.packages("rmarkdown")
 - a **programming** language (`R`),
 
 - functionality to "knit" them together through `r emo::ji("knit")` `knitr`.
+
+--
 
 **Features**:
 
@@ -665,6 +532,8 @@ install.packages("rmarkdown")
 
 Clicking on `File > New File > RMarkdown... > Document` you will create the following `RMarkdown` file:
 
+--
+
 ```{r, echo = FALSE, out.width = 1000}
 knitr::include_graphics("Images/rmarkdown.PNG")
 ```
@@ -674,6 +543,8 @@ knitr::include_graphics("Images/rmarkdown.PNG")
 ### `Rmarkdown` document
 
 Clicking on `r emo::ji("knit")` `Knit` you will create the following `html` file:
+
+--
 
 ```{r, echo = FALSE, out.width = 1000}
 knitr::include_graphics("Images/rmarkdown1.PNG")
@@ -697,20 +568,13 @@ The `Rmarkdown` document has three components:
 
 1. **Code chunks**: your `R` script
 
+--
+
 ```{r, echo = FALSE, out.width = 1000}
 knitr::include_graphics("Images/rmarkdown2.PNG")
 ```
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -733,16 +597,6 @@ output: word_document
 
 other are: `html_document`, `pdf_document`, `latex_document`, `odt_document`, `github_document`, `md_document`, `rtf_document`, `powerpoint_presentation`, `beamer_presentation`, `iosslides_presentation`, `slidy_presentation`.
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
 
 ---
 class: highlight-last-item
@@ -795,16 +649,7 @@ class: highlight-last-item
 
 - Text with the syntax `<!- - comments - - >` is **omitted** from output
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -849,16 +694,7 @@ class: highlight-last-item
 
 - `[email me](mailto:angela.andreella@unive.it)` becomes [email me](mailto:angela.andreella@unive.it)
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -882,7 +718,7 @@ class: highlight-last-item
 
 ### Ingredients of `Rmarkdown` document — Text
 
-Lines starting with asterisk $*$ as well as plus $+$ or minus $−$ signs introduce **lists**:
+Lines starting with asterisk $*$ as well as plus $+$ or minus $-$ signs introduce **lists**:
 
 ```{r, eval = FALSE}
 - books
@@ -994,16 +830,6 @@ On the same line with the first delimiter, and in curly brackets `{`, code chunk
 - one or more options, e.g., `include`, `echo`, `out.width`,..
 
  
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
 
 
 ---
@@ -1045,16 +871,6 @@ Some of the most used **options**:
 
 The complete list of options is available at [https://yihui.org/knitr/options](https://yihui.org/knitr/options).
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
 
 ---
 class: highlight-last-item
@@ -1074,16 +890,7 @@ It is recommended to use the **first code chunk** for general setup, where you c
 - import **raw data**
 
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -1110,16 +917,7 @@ knitr::kable(table)
 
 that permits to specify the `format` argument, e.g., `knitr::kable(table, format = "latex)`.
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -1137,16 +935,7 @@ Insert a LaTeX label in the caption:
 
 and then use the `\autoref{table_caption}`/`\autoref{figure_caption}` syntax in text.
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
 ---
 class: highlight-last-item
@@ -1164,14 +953,5 @@ class: highlight-last-item
 - [Rmarkdown cheat sheet](https://public.deq.virginia.gov/WPS/R/rmarkdown-2.0.pdf) 
 
 
-```{css echo=FALSE}
-.highlight-last-item > ul > li, 
-.highlight-last-item > ol > li {
-  opacity: 0.5;
-}
-.highlight-last-item > ul > li:last-of-type,
-.highlight-last-item > ol > li:last-of-type {
-  opacity: 1;
-}
-``` 
+
 
