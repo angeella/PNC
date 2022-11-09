@@ -57,7 +57,7 @@ knitr::include_graphics("Images/rstudio.PNG")
 
 ## Packages for everyone
 
-`R` provides a number of **packages* (packages)** that encapsulate very useful functions of various kinds. You can also create an `R` package!
+`R` provides a number of **packages** that encapsulate very useful functions of various kinds. You can also create an `R` package!
 
 We can install packages using the function `install.packages("name-of-the-package")`, e.g.,
 
@@ -566,7 +566,7 @@ The same for the rows using the command `rownames` command.
 
 ## List
 
-Lists are one of the most versatile and useful objects in `R`. The lsit can contain different types of objects as the dataframe but also having different dimensions since the elements of a list are completely indipendent.
+Lists are one of the most versatile and useful objects in `R`. The list can contain different types of objects as the dataframe but also having different dimensions since the elements of a list are completely indipendent.
 
 We create a list with the `list()` command:
 

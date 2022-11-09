@@ -897,6 +897,8 @@ class: highlight-last-item
 
 ### Ingredients of `Rmarkdown` document - Cross-references
 
+If the output is `PDF`:
+
 Insert a LaTeX label in the caption:
 
 - `\label{table_caption}` for tables
@@ -908,6 +910,22 @@ Insert a LaTeX label in the caption:
 
 and then use the `\autoref{table_caption}`/`\autoref{figure_caption}` syntax in text.
 
+---
+class: highlight-last-item
+
+### Ingredients of `Rmarkdown` document - Cross-references
+
+If you want a `HTML` or `Word` output (this way also works for the `PDF` ones):
+
+1. In the `YAML` you must specify as `output`:
+
+  - `bookdown::word_document2:` for `word` output,
+  - `bookdown::html_document2:` for `word` output,
+  - `bookdown::pdf_document2:` for `PDF` output.
+  
+2. The label of the figure is the name of the chuck.
+
+3. Use `\@ref(tab:name-of-the-chuck)` to cite the table and `\@ref(fig:name-of-the-chuck)` to cite the figure.
 
 
 ---
