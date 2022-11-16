@@ -354,8 +354,8 @@ __Comments__
   1. `stat_bin() using bins = 30.` 
   `Pick better value with binwidth`: `R` says that the histogram was computed considering $30$ bins (default value). If you want to change it you can set the argument `bins = x` inside the `geom_histogram()` function where `x` is the number of bins.
   
-  2. `Warning: Removed 3 rows containing` 
-  `non-finite values (stat_bin)`: `R` says that it removes three observations directly (i.e., our missing values).
+  2. `Warning: Removed 2 rows containing` 
+  `non-finite values (stat_bin)`: `R` says that it removes two observations directly (i.e., our missing values).
   
 * Note also that the **outliers** are clearly visible in the right part of the histogram.
 
@@ -627,6 +627,12 @@ ggplot(data = db,
 
 > How can we improve it?
 
+```{r}
+ggplot(data = db, 
+       mapping = aes(x = Group, fill = Sex)) + 
+  geom_bar(position="fill")
+```
+
 ## Correlation plot
 
 We can check the correlation between the *quantitative* variables to look at the level of linear dependence between pairs of two variables. We can either 
@@ -763,9 +769,9 @@ There are many ways to save a `ggplot`:
 
 - Go to the bottom right windows of `RStudio`. `Plots > Export > Save as PDF`,
 
-- Using the `ggsave(“r-graphics.pdf”, plot_obj)` function from the `ggplot2` package, where `r-graphics.pdf` is the file name to create on disk and `plot_obj` is the plot to save.
+- Using the `ggsave("r-graphics.pdf", plot_obj)` function from the `ggplot2` package, where `r-graphics.pdf` is the file name to create on disk and `plot_obj` is the plot to save.
 
-- Open a graphic device, i.e., `pdf(“r-graphics.pdf”)`, create and print a plot, and finally close the graphic device using the function `dev.off()`.
+- Open a graphic device, i.e., `pdf("r-graphics.pdf")`, create and print a plot, and finally close the graphic device using the function `dev.off()`.
 
 # References
 
