@@ -5,17 +5,134 @@ author: "Task"
 
 1. Load the `HappinessAlcoholConsumption.csv` dataset that you can find in the `S2/data/` folder.
 
+```{r}
+db <- read.csv("data/HappinessAlcoholConsumption.csv")
+```
+
+
 2. Look at the structure of the dataset
+
+```{r}
+str(db)
+```
+So, here we can see that we have four numeric variable, three characters one (that we must convert into factors) and one integer.
+
+Let's convert the character variables as factors:
+
+```{r}
+db$Region <- as.factor(db$Region)
+db$Country <- as.factor(db$Country)
+db$Hemisphere <- as.factor(db$Hemisphere)
+```
+
+Another useful function is `summary()`:
+
+```{r}
+summary(db)
+```
+Here, we can see some position indices for the numerical variables, and the absolute frequency for each level for the factor (categorical) variables.
+
 
 3. How many observations? How many variables?
 
+There are many ways to understand the number of observations and variables:
+
+```{r}
+dim(db) #dimension of the dataframe (rows: observations, columns: variables)
+```
+```{r}
+nrow(db) #number of rows (i.e., observations)
+```
+
+
+```{r}
+ncol(db) #number of columns (i.e., variables)
+```
+
+
 4. Create another dataset containing the variables `Country` and `HappinessScore`
+
+```{r}
+db_sel <- db[,c("Country", "HappinessScore")]
+```
+
 
 5. Compute the mean of the `HappinessScore` score for each region
 
+One solution:
+
+```{r}
+lev <- levels(db$Region)
+
+mean(db$HappinessScore[db$Region == lev[1]])
+mean(db$HappinessScore[db$Region == lev[2]])
+mean(db$HappinessScore[db$Region == lev[3]])
+mean(db$HappinessScore[db$Region == lev[4]])
+mean(db$HappinessScore[db$Region == lev[5]])
+mean(db$HappinessScore[db$Region == lev[6]])
+mean(db$HappinessScore[db$Region == lev[7]])
+mean(db$HappinessScore[db$Region == lev[8]])
+mean(db$HappinessScore[db$Region == lev[9]])
+
+
+```
+
+
+another one:
+
+```{r}
+lev <- levels(db$Region)
+
+for(i in seq(length(lev))){
+  
+  mean(db$HappinessScore[db$Region == lev[i]])
+}
+
+```
+
+another one:
+
+```{r}
+library(tidyverse)
+
+db %>%
+  group_by(Region) %>%
+  summarise(mean_region = mean(HappinessScore))
+```
+
+
+
 6. How many country has a mean below the global mean?
+
+```{r}
+global_mean <- mean(db$HappinessScore)
+
+sum(db$HappinessScore< global_mean)
+```
+
 
 7. Create a new variable as the sum of `BeerPerCapita`, `SpiritPerCapita` and `WinePerCapita`
 
+
+```{r}
+db$new_var <- db$Beer_PerCapita + db$Spirit_PerCapita + db$Wine_PerCapita
+```
+
+
+
 8. Compute the median of this new variable considering only the north hemisphere.
+
+
+One solution:
+
+```{r}
+median(db$new_var[db$Hemisphere == "north"])
+```
+another one:
+
+```{r}
+db %>%
+  filter(Hemisphere == "north") %>%
+  summarise(median_new_var = median(new_var))
+```
 
