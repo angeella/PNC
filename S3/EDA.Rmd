@@ -82,7 +82,7 @@ __Comment__
 
 * `c(rep(0, 25),rep(1, 25))` --  Here We repeat the integer value $0$ $25$ times (i.e., number of healthy individuals), and the integer value $1$ $25$ times (i.e., number of individuals with Alzheimer disease).
 
-* `ifelse(Group == 0, sample(c(3,4),1), sample(c(1:4),1))` -- Here We create an integer vector, where the element takes value in $\{3,4\}$ if the group variable equals $1$ (i.e., case group), and takes value in $\{1,2,3,4\}$ if the group variable equals $0$ (i.e., control group).
+* `ifelse(Group == 1, sample(c(3,4),1), sample(c(1:4),1))` -- Here We create an integer vector, where the element takes value in $\{3,4\}$ if the group variable equals $1$ (i.e., case group), and takes value in $\{1,2,3,4\}$ if the group variable equals $0$ (i.e., control group).
 
 * `rgamma(50, shape = 300)` -- Random generation of $50$ values from a Gamma distribution with shape parameter (i.e., the mean in this case) equals $300$ milliseconds.
 
@@ -306,7 +306,7 @@ We will use the `ggplot2` package to create plots, however there are also `base`
 plot(x = db$Age, y = db$Response_Time)
 ```
 
-where `x` and `y` are the two variables to be plotted. Note that `plot()` directlyplot points and not lines by default. To plot lines, add the `type="l"` parameter to the `plot()` function. To plot both points and line, set the type parameter to `"b"` (for both).
+where `x` and `y` are the two variables to be plotted. Note that `plot()` directly plot points and not lines by default. To plot lines, add the `type="l"` parameter to the `plot()` function. To plot both points and line, set the type parameter to `"b"` (for both).
 
 
 ## How works `ggplot`?
@@ -954,6 +954,8 @@ db_full %>%
            group=intervention,
            colour=intervention), size=1.5) 
 ```
+
+or considering directly the global mean for each occasion and interventation with corresponding $0.95$ confidence intervals:
 
 ```{r}
 db_full %>%
