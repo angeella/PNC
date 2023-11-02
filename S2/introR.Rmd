@@ -15,13 +15,13 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Today we will see how programming with `R` into an `Rmarkdown` file, and how to use its interface `Rstudio`. At some moment we will use `GitHub` to save our work.
+Today we will see how programming with `R` into an `Rmarkdown` file, and how to use its interface `Rstudio`. 
 
 # Let's start
 
 ## Use..`R`!
 
-- **Reproducible analysis** (yes..again) `r knitr::include_graphics("Images/download.png")`
+- **Reproducible analysis** `r knitr::include_graphics("Images/download.png")`
 
 - **Free/open-source**
 
