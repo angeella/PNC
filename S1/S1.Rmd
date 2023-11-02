@@ -2,7 +2,7 @@
 title: "STATISTICS - First module"
 subtitle: "Reproducibility in Neuroscience"
 author: "Angela Andreella"
-date: "03/11/2022"
+date: ""
 output:
   xaringan::moon_reader:
         css: xaringan-themer.css

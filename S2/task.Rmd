@@ -1,0 +1,21 @@
+---
+title: "Introduction to R"
+author: "Task"
+---
+
+1. Load the `HappinessAlcoholConsumption.csv` dataset that you can find in the `S2/data/` folder.
+
+2. Look at the structure of the dataset
+
+3. How many observations? How many variables?
+
+4. Create another dataset containing the variables `Country` and `HappinessScore`
+
+5. Compute the mean of the `HappinessScore` score for each country
+
+6. How many country has a mean below the global mean?
+
+7. Create a new variable as the sum of `BeerPerCapita`, `SpiritPerCapita` and `WinePerCapita`
+
+8. Compute the median of this new variable considering only the north hemisphere.
+

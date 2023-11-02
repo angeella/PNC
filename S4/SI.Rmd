@@ -1,0 +1,642 @@
+---
+title: "Introduction to Statistical Inference"
+subtitle: "Point Estimator and Confidence Interval"
+author: "Angela Andreella"
+date: ""
+output: 
+    html_document:
+        toc: TRUE
+        number_sections: TRUE
+        theme: united
+        highlight: tango
+        css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+In this lesson, we will use the data set preprocessed in the last lesson. Let's load it:
+
+```{r}
+load("data/db_full.RData")
+```
+
+and again we load the library `tidyverse` which loads directly the packages `ggplot2` and `dplyr`:
+
+```{r}
+library(tidyverse)
+```
+
+# Introduction
+
+In practice, a common data analysis task involves making inferences about an unknown aspect of a population of interest using observed data that is sampled from that population. Usually, we don't have access to data for the entire population. Questions in data analysis that pertain to how the summaries, patterns, trends, or relationships in a data set can be extended to the broader population are referred to as **inferential statistical questions**. Here, we will begin by covering the essential concepts of sampling from populations and then introduce two common techniques in statistical inference: 
+
+  * **point estimation** and
+  * **confidence interval estimation**.
+  
+In the last lesson, we will see another type of statistical inference: **statistical test**.
+
+Let's consider the data set analyzed in the previous lesson (i.e., the `db_full` object). For the moment, let's forget about the type of intervention and considering only one measurement. The researchers may ask the following question:
+
+> What is the average AHI total score in adults in Australia?
+
+So, we are interested in drawing conclusions about the AHI total score of the entire adult population in Australia; this is known as the **population**. In general, the population encompasses the complete set of individuals or cases we want to study. Furthermore, in the example above, we are interested in calculating a measurement: **the average** of the AHI total score on the entire population. This measurement is referred to as a **population parameter**. In general, a population parameter is a numerical characteristic of the entire population. To obtain this value in the example above, we would need to assess the self-reported questionnaire of every single adult in Australia. However, in practice, directly determining population parameters is often time-consuming, costly, and sometimes unfeasible.
+
+A more practical approach involves making **measurements within a sample**, which is a subset of individuals drawn from the population. Subsequently, we can calculate a **sample estimate**, a numerical characteristic of the sample that serves as an **estimation of the population parameter**. For instance, let's consider a scenario where we randomly selected $30$ adults from various Australia cities (the sample) and determined the AHI mean of these adults (the sample estimate). In this case, we might reasonably infer that this average provides an estimate of the average of AHI total score among all adults in the entire population. In general, the process of utilizing a sample to draw conclusions about the broader population from which it is derived is known as **statistical inference**.
+
+
+Note that averages are not the only kind of population parameter we might be interested in. For example, we can ask:
+
+> What proportion of all adults in Australia have at least a bachelor's degree?
+
+> What is the average difference of AHI total score between the first and second occasion for the entire adult population in Australia?
+
+There are many kinds of population parameters that you will run into in practice, but in this chapter, we will focus on three settings:
+
+  - Using quantitative observations to estimate the average (or mean) of one population
+  - Using categorical observations to estimate the proportion of a category of one population
+  - Using quantitative observations to estimate the difference in two population means, in the case of:
+    * independent samples
+    * dependent samples
+
+
+N.B: in this lesson, we suppose that our data set refers to the entire population of interest. 
+
+## Some notations
+
+We will denote the variable under study in the population (or briefly, the population) as $X \sim f (x; \theta)$, where $f$ represents a distribution and $\theta$ (e.g., the mean) is a parameter or a vector of parameters that specify the characteristics of the random variable within the parametric family described by $f$.
+
+The set of possible values that the parameter $\theta$ can take is called the parameter space $\Theta$.
+
+The problem of learning the characteristics of the population becomes that of learning the values of the parameters $\theta$, which are associated with them.
+
+Some example of population:
+
+  - **Bernoulli population**: $X \sim f(x; \pi) = \pi^x (1-\pi)^x$, $\Theta = \{\theta = \pi: 0\le \pi \le 1\}$
+  
+  - **Normal population**: $X \sim f(x; \pi) = \dfrac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{1}{2} \big(\frac{x - \mu}{\sigma}\big)^2}$, $\Theta = \{\theta = \pi: 0\le \pi \le 1\}$, $\Theta = \{\theta = (\mu, \sigma^2): - \infty < \mu < + \infty, 0 < \sigma^2 < \infty\}$
+
+
+From the population $X$, a subset of $n$ statistical units is drawn. The selection procedure (prior to the experiment) defines an ordered set of random variables $(X_1, X_2, \dots , X_n)$ called a **sample**. The numerical determination (after the experiment) of these variables specifies an ordered set of real numbers $(x_1, x_2, \dots , x_n)$ known as the **observed sample**.
+
+
+> A collection of random variables $(X_1, X_2, . . . , X_n)$ is a simple random sample (SRS) if the $X_i$ are independent and identically distributed (i.i.d.), following the distribution of the model described by the population: $X_i \sim f(x; \theta)$.
+
+
+A statistic, denoted as $T_n = T(X_1, X_2, \dots , X_n)$, is any real-valued function (transformation) of the random sample $X = (X_1, X_2, \dots , X_n)$ that does not depend on any other unknown quantities. Since a statistic is a random variable, it has a distribution known as the sampling distribution.
+
+  - In the simplest cases, given the distribution of the random variable $X \sim f(x; \theta)$, it is possible to derive the exact (or approximate) sampling distribution of the statistics of interest. 
+  - It is also possible to calculate the characteristic values (such as mean, variance, etc.) of these statistics. 
+  - Understanding the sampling distribution and its properties enables us to make probabilistic assessments of how well the statistic provides information about the population parameter it is defined for. This is the essence of statistics.
+
+  
+# Point estimators
+
+Point estimation entails utilizing sample data to compute a single value, often referred to as a **point estimate**. This point estimate serves as the *best guess* or *best estimate* of an unknown population parameter (e.g., population mean). In a more formal context, point estimation involves the application of a **point estimator** to the data to derive a **point estimate**.
+
+## Mean ($\mu$)
+
+The sample mean statistic is a random variable defined as follows:
+
+$$\bar{X} = \dfrac{1}{n}\sum_{i = 1}^{n} X_i$$
+$\bar{X}$ (or $\hat{\mu}$) is the **point estimator** of the population mean $\mu$. 
+
+What about its sampling distribution?
+
+- If $X_1, \dots, X_n$ are SRS from $X \sim \mathcal{N}(\mu, \sigma^2)$ then $\bar{X} \sim \mathcal{\mu, \sigma^2/n}$.
+
+- If $X_1, \dots, X_n$ are SRS from $X \sim f(x; \theta)$ but we don't know $f(\cdot)$ (we only know that the population mean equals $\mu$ and population variance $\sigma^2$), then $\bar{X} \approx \mathcal{N}(\mu, \sigma^2/n)$ when $n$ is sufficiently large (i.e., $n \ge 30$.
+
+### In `R` 
+
+So, our first research question is:
+
+> What is the average AHI score for the entire adult population in Australia?
+
+We can visualize the population distribution of the average AHI total score:
+
+```{r}
+ggplot(db_full)+
+  geom_density(aes(x = ahiTotal))
+```
+
+We can see that the population distribution is mostly symmetric (mean $\approx$ median). We have a (bit) longer tail in the left with respect the left: less adult gives high total AHI scores than small ones (positive skewed).
+
+Along with visualizing the population, we can compute in this (unreal) case, the true value of the parameter of interest $\mu$ (i.e., the population mean).
+
+```{r}
+mean(db_full$ahiTotal)
+```
+which is near the median:
+
+```{r}
+median(db_full$ahiTotal)
+```
+
+Remember, the $\mu$ population parameter value is usually unknown in real data analysis problems, as it is typically not possible to make measurements for an entire population.
+
+Instead, perhaps we can approximate it with a small subset of data! To investigate this idea, let’s try randomly selecting $30$ adults (i.e., taking a random sample of size $30$ from our population), and computing the mean for that sample. 
+
+```{r}
+set.seed(123)
+idx <- sample(unique(db_full$id), 30)
+
+mean(db_full$ahiTotal[db_full$id %in% idx])
+```
+
+which is our *point estimate* $\bar{x}$ considering $n = 30$.
+
+Taking into account that we are not considering the time aspect, the estimated average is rather close to the true value of the population parameter.
+  
+However, if we consider another sample:
+
+```{r}
+set.seed(4)
+
+idx <- sample(unique(db_full$id), 30)
+
+mean(db_full$ahiTotal[db_full$id %in% idx])
+```
+
+We get a different value for our estimate this time!! That means that our point estimate might be *unreliable*. Indeed, estimates vary from sample to sample due to **sampling variability**. But just how much should we expect the estimates of our random samples to vary? Or in other words, how much can we really trust our point estimate based on a single sample?
+
+To understand this, we will simulate many samples (much more than just two) of size $30$ from our population of Australian adults and calculate the average of total AHI score in each sample. This simulation will create many sample mean, which we can visualize using a histogram. The distribution of the estimate for all possible samples of a given size (which we commonly refer to as $n$) from a population is called a **sampling distribution**. The sampling distribution will help us see how much we would expect our sample proportions from this population to vary for samples of size $30$.
+
+```{r}
+
+out <- replicate(1000, 
+mean(db_full$ahiTotal[db_full$id %in% sample(unique(db_full$id), 30)])
+)
+```
+
+If we plot the sampling distribution using the `geom_density()` function:
+
+```{r}
+ggplot()+
+  geom_density(aes(x = out)) +
+  geom_vline(xintercept = mean(db_full$ahiTotal))+theme_classic()
+```
+
+we can note the results that we saw before, i.e., $\bar{X} \approx \mathcal{N}(\mu, \sigma^2/n)$, and the mean of our $1000$ replications:
+
+```{r}
+mean(out)
+```
+
+is very close to the true mean $\mu =$  `r mean(db_full$ahiTotal)`.
+
+
+Let’s visualize the population distribution, distribution of the sample, and the sampling distribution on one plot to compare them. 
+
+```{r}
+set.seed(123)
+idx <- sample(unique(db_full$id), 30)
+
+sample1 <- db_full$ahiTotal[db_full$id %in% idx]
+
+
+g1 <- ggplot(db_full) + geom_histogram(aes(x = ahiTotal)) + ggtitle("Population distribution")
+g2 <- ggplot() + geom_histogram(aes(x = sample1))+ ggtitle("Sampling distribution with n=30")
+g3 <- ggplot() + geom_histogram(aes(x = out))+ ggtitle("Sampling distribution of the mean for samples of size 30")
+
+gridExtra::grid.arrange(g1,g2,g3)
+```
+
+
+Comparing these three distributions, the centers of the distributions are all around the same AHI total score (around `r mean(db_full$ahiTotal)`). The original population distribution has a symmetric distribution, and the sample distribution has a different shape to that of the population distribution. If we increase $n$:
+
+```{r}
+set.seed(123)
+idx <- sample(unique(db_full$id), 30)
+
+sample1 <- db_full$ahiTotal[db_full$id %in% idx]
+
+idx <- sample(unique(db_full$id), 80)
+
+sample2 <- db_full$ahiTotal[db_full$id %in% idx]
+
+idx <- sample(unique(db_full$id), 200)
+
+sample3 <- db_full$ahiTotal[db_full$id %in% idx]
+
+g1 <- ggplot() + geom_histogram(aes(x = sample1))+ ggtitle("Sampling distribution with n=30")
+g2 <- ggplot() + geom_histogram(aes(x = sample2))+ ggtitle("Sampling distribution with n=80")
+g3 <- ggplot() + geom_histogram(aes(x = sample3))+ ggtitle("Sampling distribution with n=200")
+
+gridExtra::grid.arrange(g1,g2,g3)
+```
+
+we can note how the sampling distribution goes to the population one. 
+
+Considering the previous figure, we can note that the sampling distribution has a bell shape, and it has a lower spread than the population or sample distributions, i.e.,:
+
+```{r}
+var(db_full$ahiTotal)
+var(out)
+```
+
+
+The sample means vary less than the individual observations because there will be some high values and some small values in any random sample, which will keep the average from being too extreme.
+
+Given that there is quite a bit of variation in the sampling distribution of the sample mean—i.e., the point estimate that we obtain is not very reliable—is there any way to improve the estimate? One way to improve a point estimate is to take a larger sample. To illustrate what effect this has, we will take many samples of size $20, 50, 100, and 500$, and plot the sampling distribution of the sample mean. We indicate the mean of the sampling distribution with a red vertical line.
+
+```{r}
+out20 <- replicate(1000, 
+mean(db_full$ahiTotal[db_full$id %in% sample(unique(db_full$id), 30)])
+)
+
+out50 <- replicate(1000, 
+mean(db_full$ahiTotal[db_full$id %in% sample(unique(db_full$id), 50)])
+)
+
+out100 <- replicate(1000, 
+mean(db_full$ahiTotal[db_full$id %in% sample(unique(db_full$id), 100)])
+)
+
+out200 <- replicate(1000, 
+mean(db_full$ahiTotal[db_full$id %in% sample(unique(db_full$id), 200)])
+)
+
+g1 <- ggplot() + geom_histogram(aes(x = out20))+ ggtitle("Sampling distribution of the mean for samples of size 20")+ xlim(c(65,80))
+g2 <- ggplot() + geom_histogram(aes(x = out50))+ ggtitle("Sampling distribution of the mean for samples of size 50")+ xlim(c(65,80))
+g3 <- ggplot() + geom_histogram(aes(x = out100))+ ggtitle("Sampling distribution of the mean for samples of size 200")+ xlim(c(65,80))
+g4 <- ggplot() + geom_histogram(aes(x = out200))+ ggtitle("Sampling distribution of the mean for samples of size 100") + xlim(c(65,80))
+
+gridExtra::grid.arrange(g1,g2,g3,g4, ncol = 2)
+```
+
+  - The mean of the sample mean (across samples) is equal to the population mean. In other words, the sampling distribution is centered at the population mean.     - Increasing the size of the sample decreases the spread (i.e., the variability) of the sampling distribution. Therefore, a larger sample size results in a more reliable point estimate of the population parameter. 
+  - The distribution of the sample mean is roughly bell-shaped.
+
+
+## Proportion ($\pi$)
+
+
+Consider a Bernoulli population, represented by the random variable $X \sim Ber(\pi)$, from which a random sample $(X_1, X_2, \dots , X_n)$ is drawn. In this case, the sample mean is defined as:
+
+$$\bar{X} = \dfrac{X_1 + \dots + X_n}{n} = \hat{\pi}$$
+
+which represents the proportion of successes in the random sample, where the number of successes in the sample is $Y = X_1 + \dots + X_n$. For that, the sample mean of a Bernoulli population, $X \sim Ber(\pi)$, is referred to as the **sample proportion** (i.e, $\hat{p}$).
+
+The sampling distribution of $\hat{p}$ can be approximated by a Normal distribution:
+
+$$\hat{\pi} \approx \mathcal{N}( \pi,\pi(1-\pi)/n) \quad \text{with $n$ sufficiently large}$$
+
+
+
+
+
+
+### In `R`
+
+So our second research question is:
+
+> What proportion of all adults in Australia have at least a bachelor’s degree?
+
+As before, we can compute the population proportion $\pi$:
+
+```{r}
+mean(db_full$educ %in% c(4,5))
+```
+and considering a sample of size $n=30$:
+
+```{r}
+mean(db_full$educ[db_full$id %in% sample(unique(db_full$id), 30)] %in% c(4,5))
+```
+and another one:
+
+```{r}
+mean(db_full$educ[db_full$id %in% sample(unique(db_full$id), 30)] %in% c(4,5))
+```
+Again, we have a different value of our point estimate associated with the sampling variability. Let's replicate it $1000$ times and plot the sampling distribution:
+
+```{r}
+
+out <- replicate(1000, mean(db_full$educ[db_full$id %in% sample(unique(db_full$id), 30)] %in% c(4,5)))
+
+ggplot()+
+  geom_density(aes(x = out)) +
+  geom_vline(xintercept = mean(db_full$educ %in% c(4,5))
+)+theme_classic()
+```
+
+Again, we can see that the sampling distribution of $\pi$ is bell shaped since $$\hat{\pi} \approx \mathcal{N}( \pi,\pi(1-\pi)/n) \quad \text{with $n$ sufficiently large}$$.
+
+In addition, the sample proportions are centered around the population proportion value! In general, the mean of the sampling distribution should be equal to the population proportion. This is great news because it means that the sample proportion is neither an overestimate nor an underestimate of the population proportion. In other words, if you were to take many samples as we did above, there is no tendency towards over or underestimating the population proportion. In a real data analysis setting where you just have access to your single sample, this implies that you would suspect that your sample point estimate is roughly equally likely to be above or below the true population proportion.
+
+
+
+## Difference in means ($\mu_1 - \mu_2$)
+
+We select a random sample of $n_1$ size from population $1$ ($X_1 \sim f(x_1; \theta_1)$) and a random sample of $n_2$ size from population $2$ ($X_1 \sim f(x_1; \theta_1)$). We consider the two sample means, $\bar{X}_1$ and $\bar{X}_2$.
+
+The difference $\bar{X}_1 - \bar{X}_2$ is the point estimator of the difference between the means of the two populations $\mu_1$, $\mu_2$.
+
+  - $\bar{X}_1 - \bar{X}_2 \sim \mathcal{N}(\mu_1 -\mu_2, \sigma^2_{\bar{X}_1 - \bar{X}_2})$ if $X_1 \sim \mathcal{N}(\mu_1, \sigma^2_1)$ and  $X_2 \sim \mathcal{N}(\mu_2, \sigma^2_2)$
+
+  - $\bar{X}_1 - \bar{X}_2 \approx \mathcal{N}(\mu_1 -\mu_2, \sigma^2_{\bar{X}_1 - \bar{X}_2})$ if $n_1$ and $n_2$ sufficiently large.
+
+Where $\sigma^2_{\bar{X}_1 - \bar{X}_2}$ is the variance of the point estimator $\bar{X}_1 - \bar{X}_2$, which describes its sampling variability.
+
+### In `R`
+
+So, our third research question is
+
+> What is the average difference of AHI total score between the first and second occasion for the entire adult population in Australia?
+
+
+The population parameter $\hat{\mu_1} - \hat{\mu_2}$ equals:
+
+```{r}
+db_full1 <- db_full %>%
+  filter(occasion %in% c("0","1")) %>%
+  group_by(id) %>%
+  mutate(diff_01 = ahiTotal - lag(ahiTotal))
+
+mean(db_full1$diff_01, na.rm = TRUE)
+```
+Again we can visualize the population distribution of the difference $\mu_1 - \mu_2$:
+
+```{r}
+db_full %>%
+  filter(occasion %in% c("0","1")) %>%
+  group_by(id) %>%
+  mutate(diff_01 = ahiTotal - lag(ahiTotal)) %>%
+ggplot()+
+  geom_density(aes(x = diff_01))
+
+```
+
+and computing a point estimate considering a sample with size $n = 30$:
+
+```{r}
+idx <-  sample(db_full$id, 30)
+
+mean(db_full1$diff_01[db_full$id %in% idx], na.rm = TRUE)
+```
+and replicate it to understand the sampling variability:
+
+```{r}
+idx <-  sample(db_full$id, 30)
+
+mean(db_full1$diff_01[db_full$id %in% idx], na.rm = TRUE)
+```
+The sampling distribution considering $100$ replications equals:
+
+```{r}
+out <- replicate(1000, 
+                 mean(db_full1$diff_01[db_full$id %in% sample(db_full$id, 30)], 
+                      na.rm = TRUE))
+
+ggplot()+
+  geom_density(aes(x = out)) +
+  geom_vline(xintercept = mean(db_full1$diff_01, na.rm = TRUE))+
+  theme_classic()
+
+```
+
+We can note $\bar{X}_1 - \bar{X}_2 \approx \mathcal{N}(\mu_1 -\mu_2, \sigma^2_{\bar{X}_1 - \bar{X}_2})$.
+
+## Summary
+
+- A point estimate is a single value computed using a sample from a population (e.g., a mean or proportion).
+
+- The sampling distribution of an estimate is the distribution of the estimate for all possible samples of a fixed size from the same population.
+
+- The shape of the sampling distribution is usually bell-shaped with one peak and centered at the population mean or proportion.
+
+- The spread of the sampling distribution is related to the sample size. As the sample size increases, the spread of the sampling distribution decreases.
+
+
+# Confidence Intervals
+
+Let $X$ follow $f(x; \theta)$, and consider a random sample $(X_1, \dots, X_n)$ with an estimator $T_n = T(X_1, \dots, X_n)$. Let $t_n = t(x_1, \dots, x_n)$ be the estimate of $\theta$. In reality, no matter how accurate the estimator $T_n$ is, the probability that it takes on a value exactly equal to $\theta$ is an event nearly impossible to occur.
+
+A single number, $t_n$, does not provide any indication of the probabilities that the estimate takes on a value close to the parameter $\theta$. The **confidence interval estimation** overcomes this inconvenience. Confidence interval estimation, or confidence interval, allows us to establish a range of plausible estimates associated with a fixed level of *confidence*. 
+
+In other word, It allows us to define a level of confidence in our population parameter estimate gleaned from a sample. For example, if we wanted to be $95\%$ confident that the range of mean AHI total scores computed from our sample encompasses the true mean value for all Australian adults in the population we would compute this interval by adding and subtracting $1.96 \sigma / \sqrt{n}$ to/from the sample mean.
+
+> But beware, people will sometimes state this as " ... there is a $95\%$ chance that the population mean falls between such and such values .." which is problematic since it implies that the population mean is a random variable when in fact it’s not. The confidence interval reminds us that the chances are in the sampling and not the population parameter.
+
+Confidence interval estimation is often calculated based on the point estimate by adding and subtracting a value known as the **margin of error**:
+
+$$\text{Point Estimate} \pm \text{Margin of Error}$$
+
+We want an interval that will bracket the true value of the parameter in $(1-\alpha)\%$ of the instances of an experiment that is repeated a large number of times.
+
+We saw before that the sample mean is distributed (exactly or approximated) as a normal distribution $\mathcal{N}(\mu, \sigma^2/n)$. Since:
+
+$$\text{If}\quad  Y \sim \mathcal{N}(\mu, \sigma^2) \quad \text{then} \quad Z = \dfrac{X - \mu}{\sigma} \sim \mathcal{N}(0,1)$$
+considering a confidence level equals $1-\alpha$ for example. Considering $(\bar{X} - \mu)/(\sigma/n) \sim \mathcal{N}(0,1)$ we know that:
+
+
+$$\Pr( z_{\alpha/2} \le (\bar{X} - \mu)/(\sigma/n) \le z_{1-\alpha/2}) = 1-\alpha$$
+rewrite everyting for $\mu$ we have:
+
+$$
+IC_{1-\alpha}(\mu) = (\mu - z_{0.95} \,\, \sigma / \sqrt{n}, \mu + z_{0.95} \,\, \sigma / \sqrt{n} )
+$$
+
+In other words, if we estimate a lot of times the confidence intervals from random samples, the $(1-\alpha)\%$ of the times, they includes the true value of the population parameter.
+
+```{r}
+sim <- function(n){
+  
+  id <- sample(db_full$id, n, replace = TRUE)
+  out <- c(mean(db_full$ahiTotal[db_full$id %in% id]),
+           sd(db_full$ahiTotal[db_full$id %in% id]))
+
+  LB = out[1]-(2*out[2]/sqrt(n))
+  UB =  out[1]+(2*out[2]/sqrt(n))
+  
+  return(c(LB, UB, out[1]))
+}
+
+out <- data.frame(t(replicate(200, sim(n = 30))))
+colnames(out) <- c("LB", "UB", "meanX")
+head(out)
+```
+
+```{r}
+out <- out %>% 
+  mutate(Capture = ifelse(mean(db_full$ahiTotal) > LB & mean(db_full$ahiTotal) < UB,1,0),
+         sample = 1:n())
+
+mean(out$Capture)
+
+ggplot(out, 
+       aes(x = meanX, y = sample, xmin = LB, xmax = UB)) +
+  geom_point(stat="identity") +
+  geom_errorbarh(height=.2, colour = ifelse(out$Capture, "black", "red")) +
+  geom_vline(xintercept = mean(db_full$ahiTotal))+
+  theme_classic()
+```
+
+You can joke with these simulations [here](https://shiny.rit.albany.edu/stat/confidence/)!
+
+
+In `R` everything is very simple, there are basic `R` commands to compute confidence intervals for $\mu$, $\pi$ and $\mu_1 - \mu_2$.
+
+## Mean ($\mu$)
+
+We already saw before the confidence intervals for the mean $\mu$:
+
+
+$$
+IC_{1-\alpha}(\mu) = (\hat{\mu} - z_{0.95} \,\, \sigma / \sqrt{n}, \hat{\mu} + z_{0.95} \,\, \sigma / \sqrt{n} )
+$$
+
+However, most of times the population variance $\sigma^2$ is unknown. We then estimate $\sigma^2$ as:
+
+$$\hat{\sigma}^2 = s^2_x/n$$
+
+where $s^2_x$ is the sample standard deviation and $n$ the sample size. This introduces an additional level of uncertainty and also a complication. The complication arises from the fact that for small samples, sample estimates of the standard deviation tend to be biased (lower) compared to the true population standard deviation.
+
+
+Doing that we must consider instead of $z_{0.95}$ (i.e., quantile at level $0.95$ of $\mathcal{N}(0,1)$) the quantile at level $0.95$ of another distribution. The "Student's t-distribution" is the appropriate probability distribution to use when we want to estimate the sampling distribution of the mean of a normally distributed variable under two common conditions: when sample sizes are small (which is very frequent) and/or when the standard deviation of the population from which we are sampling is unknown (which is almost always the case). In this context, you can think of the values of $t$ as multiples of the estimated standard error. The t-distribution is characterized by a single parameter known as degrees of freedom ($df$), where $df = n - 1$. As the degrees of freedom increase, the t-distribution becomes more and more similar to the "standard normal distribution" ($\mathcal{N}(0, 1)$).
+
+
+### In  `R`
+
+To compute the confidence intervals for the mean we can use the function  `t.test`
+
+```{r}
+t.test(db_full$ahiTotal, conf.level = 0.95)
+```
+
+that automatically considers the Student's t-distribution. We can fix the level of confidence $1-\alpha$ in the argument `conf.level`.
+
+## Proportion ($\pi$)
+
+Let $(X_1, \dots, X_n)$ be a random sample from $X \sim Ber(\pi)$. As saw before, an estimator for $\pi$ is given by the sample proportion, which coincides with the sample mean. If the sample is large, the distribution of the sample proportion is approximately normal with mean and standard deviation, i.e.:
+
+$$\hat{\pi} \sim \mathcal{N}(\pi, \pi (1-\pi)/n)$$
+
+The confidence interval, for the proportion of a population is:
+
+
+$$
+IC_{1-\alpha}(\pi) = (\hat{\pi} - z_{0.95} \,\, \sqrt{(\hat{\pi}(1-\hat{\pi}))/n}, \pi + z_{0.95} \,\, \sqrt{(\hat{\pi}(1-\hat{\pi}))/n} )
+$$
+
+### In  `R`
+
+To compute the confidence intervals for $\pi$ we can use again the function  `prop.test`
+
+```{r}
+prop.test(table(db_full$sex[db_full$ahiTotal >= mean(db_full$ahiTotal)]), conf.level = 0.95)
+```
+
+## Difference in means ($\mu_1 - \mu_2$)
+
+When the difference in population means is analyzes, we must think about the type of sampling designs we have:
+
+ - Design with independent random samples.
+ - Paired sampling design.
+
+These two sampling designs result in differences in the methods used to compare the two populations. However, we will see that in the paired case, we are simply analyzing a new random variables $Y$ which is the difference between $X_1$ and $X_2$.
+
+Let's start considering a random sample of $n_1$ size from population $1$ and a random sample of $n_2$ size from population $2$ independent from $1$. Before we saw that the difference $\bar{X}_1 - \bar{X}_2$ is the point estimator of the difference between the means of the two populations $\mu_1$, $\mu_2$ and
+
+  - $\bar{X}_1 - \bar{X}_2 \sim \mathcal{N}(\mu_1 -\mu_2, \sigma^2_{\bar{X}_1 - \bar{X}_2})$ if $X_1 \sim \mathcal{N}(\mu_1, \sigma^2_1)$ and  $X_2 \sim \mathcal{N}(\mu_2, \sigma^2_2)$
+
+  - $\bar{X}_1 - \bar{X}_2 \approx \mathcal{N}(\mu_1 -\mu_2, \sigma^2_{\bar{X}_1 - \bar{X}_2})$ if $n_1$ and $n_2$ sufficiently large.
+
+Where $\sigma^2_{\bar{X}_1 - \bar{X}_2}$ is the variance of the point estimator $\bar{X}_1 - \bar{X}_2$, which describes its sampling variability.
+
+Therefore the confidence interval for $\mu_1 -\mu_2$ is defined as:
+
+$$
+IC_{1-\alpha}(\mu_1 - \mu_2) = (\bar{X}_1 - \bar{X}_2 - z_{0.95} \,\, \sqrt{\sigma^2_{\bar{X}_1 - \bar{X}_2}}, \bar{X}_1 - \bar{X}_2 + z_{0.95} \,\, \sqrt{\sigma^2_{\bar{X}_1 - \bar{X}_2}} )
+$$
+Again, we don't know $\sigma^2_{\bar{X}_1 - \bar{X}_2}$ and we must estimate it in some way. Here, there are two possibilities:
+
+- Assuming $\sigma^2_1 = \sigma^2_2$: $\sigma^2_{\bar{X}_1 - \bar{X}_2} = \dfrac{\sigma^2_1}{n_1} + \dfrac{\sigma^2_2}{n_2}$
+- Assuming $\sigma^2_1 \ne \sigma^2_2$: $\sigma^2_{\bar{X}_1 - \bar{X}_2} = \dfrac{\sigma^2_1 (n_1-1) + \sigma_2^2 (n_2-2)}{n_1+n_2-2}$
+
+As in the case of a single mean $\mu$, if we use an estimate of $\sigma_1^2$ and $\sigma^2_2$ instead of the true population value inside the confidence interval formulation, we must consider the quantile of the student t distribution instead of the standard normal one. In this case the degrees of freedom $df$ equals $n_1+n_2 -2$ for the second case, while the $df$ in the first case has a more complicated formula that we will not consider here.
+
+
+Let's now see the last case, i.e., we have a paired sampling design. A random sample is selected from one population, and each statistical unit provides two observations. Each pair of observations shares a common element: the individual on whom the measurements were taken. 
+The two observations on the same subject are not independent because they are influenced by common individual factors.
+
+
+Given $X_1 \sim \mathcal{N}(\mu_1, \sigma_1^2)$ and $X_2 \sim \mathcal{N}(\mu_2, \sigma_2^2)$, when paired sampling is used, we consider the random variable "difference" as: 
+
+$$D = X_1 - X_2 \sim \mathcal{N}(\mu_1 - \mu_2, \sigma^2_{\mu_1 - \mu_2})$$.
+
+
+The parameter of interest in this case becomes the difference of means $\mu_d = \mu_1 - \mu_2$. We then consider the estimator $\bar{D} = \sum_{i=1}^{n} \dfrac{X_{1i} - X_{2i}}{n}$. Since also here we do not know $ \sigma^2_{D}$ we plug-in the estimator
+
+$$s_d^2 = \dfrac{1}{n-1} \sum_{i}^{n} (D_i - \bar{D})^2$$
+Finally the confidence intervals equals ate level $0.95$:
+
+$$
+IC_{1-\alpha}(\mu_d) = (\bar{D} - t_{0.95,n-1} \,\, \sigma_{d}\sqrt{n}, \bar{D} + t_{0.95, } \,\, \sigma_{d}/\sqrt{n} )
+$$
+As you can note, this is equals to the confidence intervals of the simple t-test for the mean $\mu$ but considering the new random variable $D$ instead of $X$.
+
+
+### In  `R`
+
+To compute the confidence intervals for $\mu_1 - \mu_2$ we can use again the function  `t.test`
+
+```{r}
+t.test(db_full$ahiTotal[db_full$sex==1],db_full$ahiTotal[db_full$sex==2], paired = FALSE, conf.level = 0.95, var.equal = TRUE)
+```
+
+you must specify if the observations are paired or not in the `paired` argument, and if we must assume that the two variances are equals. 
+
+Here, an example of paired t-test:
+
+```{r}
+db01 <-db_full %>%
+   group_by(id) %>% 
+   filter(all(c(0, 1) %in% occasion)) 
+
+
+t.test(db01$ahiTotal[db01$occasion==0],db01$ahiTotal[db01$occasion==1], paired = TRUE, conf.level = 0.95)
+```
+
+# To sum up
+
+Let's see an analysis using our `db_full` dataset. We want to estimate the difference in mean between the first and last occurrences considering for each type of interventions. So, we want to plot these differences in mean and their corresponding confidence intervals at level $0.9$.
+
+First of all, let's compute the 
+
+```{r}
+db <- db_full %>%
+   group_by(id) %>% 
+   filter(all(c(0, 5) %in% occasion)) %>%
+   group_by(intervention, id)%>%
+   mutate(ahiDiff = ahiTotal - lag(ahiTotal)) %>%
+   filter(occasion %in% c(0,5)) %>%
+select(ahiDiff, id, occasion, intervention) %>%
+   group_by(intervention) %>%
+   na.omit() %>%
+select(ahiDiff, intervention)
+
+n <- nrow(db)
+
+db %>% 
+  group_by(intervention) %>%
+  mutate(ahiDiffmean = mean(ahiDiff, na.rm = TRUE),
+          LU = ahiDiffmean - 2 * sd(ahiDiff, na.rm = TRUE)/sqrt(n),
+          LB = ahiDiffmean + 2 * sd(ahiDiff, na.rm = TRUE)/sqrt(n)) %>%
+  ggplot(aes(y= intervention, x = ahiDiffmean))+
+  geom_point() + 
+  geom_errorbar(aes(xmin = LU, xmax = LB)) +
+  theme_classic()+
+  geom_vline(xintercept = 0, col = "red", linetype = "dotted", lwd = 1)
+```
+
+> What we can say?
+
+
+
+
+
+
+
+

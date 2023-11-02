@@ -2,7 +2,7 @@
 title: "STATISTICS - First module"
 subtitle: "Introduction"
 author: "Angela Andreella"
-date: "03/11/2022"
+date: "02/11/20223"
 output:
   xaringan::moon_reader:
         css: xaringan-themer.css
@@ -61,7 +61,7 @@ class: highlight-last-item
 
 ## Course outline
 
-- **Reproducibility in Neuroscience**: main concepts, when we fall into it, and how to fix it,
+- **Reproducibility in Neuroscience**: main concepts, when we fall into it, and how to fix it (we will jump it this year but you can find the materials in [the GitHub repository](https://github.com/angeella/PNC),
 
 --
 
@@ -76,6 +76,15 @@ class: highlight-last-item
   - Exploratory plots
   
   - Preprocessing step
+--
+
+- **Introduction to Statistical Inference**, i.e. how to make inferential conclusions:
+
+  - Point estimator
+  
+  - Confidence intervals
+  
+  - Statistical tests
 --
 
 ```{css echo=FALSE}
