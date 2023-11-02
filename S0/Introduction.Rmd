@@ -2,7 +2,7 @@
 title: "STATISTICS - First module"
 subtitle: "Introduction"
 author: "Angela Andreella"
-date: "02/11/20223"
+date: "02/11/2023"
 output:
   xaringan::moon_reader:
         css: xaringan-themer.css
@@ -76,7 +76,11 @@ class: highlight-last-item
   - Exploratory plots
   
   - Preprocessing step
---
+
+---
+class: highlight-last-item
+
+## Course outline
 
 - **Introduction to Statistical Inference**, i.e. how to make inferential conclusions:
 
