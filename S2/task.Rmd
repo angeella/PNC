@@ -11,7 +11,7 @@ author: "Task"
 
 4. Create another dataset containing the variables `Country` and `HappinessScore`
 
-5. Compute the mean of the `HappinessScore` score for each country
+5. Compute the mean of the `HappinessScore` score for each region
 
 6. How many country has a mean below the global mean?
 

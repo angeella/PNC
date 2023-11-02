@@ -748,7 +748,7 @@ distribution:</p>
 </ul>
 <p>For example:</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="fl">1.5</span>) <span class="co">#Here we genereted 5 values from a Normal distribution with mean 2 and standard deviation 1.5.</span></span></code></pre></div>
-<pre><code>## [1] 4.5638757 2.3575935 1.8892874 0.5765187 0.8534031</code></pre>
+<pre><code>## [1]  0.7339943 -2.2026031  4.3981249  1.3987080  2.7972441</code></pre>
 <p>For a complete look of the distributions available on R, see
 <code>help(Distributions)</code>.</p>
 <p>We can also extract a part of the vector using the square brackets
@@ -891,22 +891,22 @@ have the same number of columns):</li>
 </ul>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">5</span><span class="sc">*</span><span class="dv">5</span>), <span class="at">nrow =</span> <span class="dv">5</span>)</span>
 <span id="cb103-2"><a href="#cb103-2" tabindex="-1"></a><span class="fu">solve</span>(Z)</span></code></pre></div>
-<pre><code>##            [,1]       [,2]      [,3]        [,4]       [,5]
-## [1,] -0.4913172 -2.4673317 -1.813353  1.20461863  3.6897102
-## [2,]  0.2936352  1.6840266  1.131708 -0.47488422 -2.0186034
-## [3,]  0.4490393  1.3796984  1.505773 -0.48538347 -2.1047650
-## [4,] -0.5856187 -0.2439973  0.208885  0.09257399  0.2558247
-## [5,]  0.1715075  1.5371042  1.672608 -0.40797506 -3.1829129</code></pre>
+<pre><code>##             [,1]       [,2]        [,3]        [,4]        [,5]
+## [1,]  0.14084985 -0.2150858 -0.16135622  0.01592553  0.04899503
+## [2,] -0.68096603 -0.7240433  0.41275886  1.80056133 -0.79260295
+## [3,]  0.95434699  0.5860169  0.04068926 -1.20543839  0.28501507
+## [4,] -0.03477481 -0.4701285  0.29451999 -0.23658921 -0.09177541
+## [5,] -1.43704686 -0.8448967 -0.39174741  2.26842585 -1.18901003</code></pre>
 <ul>
 <li>Extract the <strong>diagonal </strong> of a matrix:</li>
 </ul>
 <div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" tabindex="-1"></a><span class="fu">diag</span>(Z)</span></code></pre></div>
-<pre><code>## [1]  0.3000795  2.1859330  1.8395421 -0.5792554 -0.9269504</code></pre>
+<pre><code>## [1]  1.96204820  0.04098752 -0.21112566 -1.14844770 -1.28441194</code></pre>
 <ul>
 <li><strong>Determinant</strong> of matrix:</li>
 </ul>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a><span class="fu">det</span>(Z)</span></code></pre></div>
-<pre><code>## [1] -2.911555</code></pre>
+<pre><code>## [1] -5.923727</code></pre>
 <blockquote>
 <p>Using <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>
 between two matrices perform the element-wise operations.</p>
@@ -967,13 +967,13 @@ to factors?</p></li>
 the column:</li>
 </ul>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" tabindex="-1"></a>db<span class="sc">$</span>Numbers[<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>)]</span></code></pre></div>
-<pre><code>## [1] 3.288217 5.081473</code></pre>
+<pre><code>## [1] 5.36272 4.68879</code></pre>
 <ul>
 <li>select the columns and the rows using directly the square brackets
 <code>[]</code>:</li>
 </ul>
 <div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" tabindex="-1"></a>db[<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>), <span class="dv">1</span>]</span></code></pre></div>
-<pre><code>## [1] 3.288217 5.081473</code></pre>
+<pre><code>## [1] 5.36272 4.68879</code></pre>
 <p>We can see the column names using the <code>colnames</code>
 command:</p>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" tabindex="-1"></a><span class="fu">colnames</span>(db)</span></code></pre></div>
@@ -1015,7 +1015,7 @@ directly.</p>
 <p>We can check the structure of our object (vector, matrix, array,
 dataframe) and its class using the <code>str()</code> function:</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" tabindex="-1"></a><span class="fu">str</span>(X)</span></code></pre></div>
-<pre><code>##  num [1:2, 1:3, 1:5] 1.048 0.222 1.518 0.316 -1.39 ...</code></pre>
+<pre><code>##  num [1:2, 1:3, 1:5] 0.531 -1.474 -1.279 -0.495 1.316 ...</code></pre>
 <p>or check it using the functions <code>is.vector()</code>,
 <code>is.matrix()</code>, <code>is.array()</code> and
 <code>is.data.frame()</code>:</p>
@@ -1025,33 +1025,33 @@ dataframe) and its class using the <code>str()</code> function:</p>
 object:</p>
 <div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" tabindex="-1"></a><span class="fu">summary</span>(X)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -2.0558 -0.4793  0.2835  0.2105  1.0461  1.7650</code></pre>
+## -1.9532 -0.4943  0.2919  0.2192  0.8255  2.9454</code></pre>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" tabindex="-1"></a><span class="fu">summary</span>(db)</span></code></pre></div>
 <pre><code>##       Col1          Col2  
-##  Min.   :3.288   ciao :3  
-##  1st Qu.:4.891   hello:3  
-##  Median :5.534   hola :3  
-##  Mean   :5.383            
-##  3rd Qu.:5.863            
-##  Max.   :7.801</code></pre>
+##  Min.   :3.867   ciao :3  
+##  1st Qu.:4.596   hello:3  
+##  Median :4.689   hola :3  
+##  Mean   :4.997            
+##  3rd Qu.:5.363            
+##  Max.   :6.683</code></pre>
 <p>and the functions <code>head()</code>/<code>tail()</code> returns the
 first/last parts of a vector, matrix, table, data frame or function:</p>
 <div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" tabindex="-1"></a><span class="fu">head</span>(db)</span></code></pre></div>
 <pre><code>##       Col1  Col2
-## 1 6.230552  ciao
-## 2 7.800594 hello
-## 3 5.606893  hola
-## 4 3.288217  ciao
-## 5 4.152542 hello
-## 6 5.863291  hola</code></pre>
+## 1 4.595940  ciao
+## 2 5.240405 hello
+## 3 4.468602  hola
+## 4 5.362720  ciao
+## 5 5.425312 hello
+## 6 6.682975  hola</code></pre>
 <div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" tabindex="-1"></a><span class="fu">tail</span>(db)</span></code></pre></div>
 <pre><code>##       Col1  Col2
-## 4 3.288217  ciao
-## 5 4.152542 hello
-## 6 5.863291  hola
-## 7 4.890812  ciao
-## 8 5.081473 hello
-## 9 5.533953  hola</code></pre>
+## 4 5.362720  ciao
+## 5 5.425312 hello
+## 6 6.682975  hola
+## 7 4.642485  ciao
+## 8 4.688790 hello
+## 9 3.867243  hola</code></pre>
 </div>
 </div>
 <div id="other-fundamental-functions" class="section level1" number="3">

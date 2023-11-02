@@ -344,7 +344,7 @@ rep(x,3) #Here we repeat the vector x three times
   
   4. `rgamma()` Gamma distribution
   
-  5. `rt()` Gamma distribution
+  5. `rt()` t distribution
   
 For example:
 
