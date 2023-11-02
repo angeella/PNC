@@ -18,11 +18,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **Exploratory Data Analysis** (EDA) is a crucial part and usually takes up most of the time. A proper and extensive EDA would reveal interesting **patterns** and help to prepare the data in a better way for the following analyses. It can be roughly summarized in three big parts:
 
-1. **Structure and summary of data**: To check the type of variables in the data set and compute location indexes (e.g., mean, median) of the variables of interest,
+1. **Structure and summary of data**: To check the type of variables in the data set and compute location indexes (e.g., mean, median), variability indexes (e.g., variance) of the variables of interest ,
 
-2. **Exploratory plots**: Histograms, box plots, barplots, correlogram or scatter plots (e.g., skeweness, outliers), 
+2. **Exploratory plots**: Histograms, box plots, bar plots, correlogram or scatter plots (e.g., skeweness, outliers), 
 
-3. **Preprocessing step**: Are there any NAs? Missing values? Integer variables to be converted in factors?  \dots
+3. **Preprocessing step**: Are there any `NA`s? Missing values? Integer variables to be converted in factors?  \dots
 
 Before starting the analysis, load the library `tidyverse` which loads directly the packages `ggplot2` and `dplyr`:
 
@@ -34,7 +34,7 @@ library(tidyverse)
 We firstly analyze simulated data, then we will see a real data set example.
 
 
-Let's **create our data set**. We have $50$ subjects ($25$ with Alzheimer disease and $25$ healthy individuals). We analyze the **response time** (in milliseconds) of the Decoding Test VIPER-NAM (Images will appear on the screen for a short period of time an then disappear. Four letters will then appear, only one of which will correspond to the letter of the object. The user must choose the correct letter as quickly as possible). The response time is collected $10$ **times** for each individual. We also "collect" the **Attention Control Scale** (ATTC, i.e., self-report scale that is designed to measure attention focusing and attention shifting). The ATTC consists of $20$ items (we will consider only one here) that are rated on a four-point Likert scale from $1$ (almost never) to $4$ (always). We also "collect" sex and age for each individual.
+Let's **create our data set**. We have $50$ subjects ($25$ with Alzheimer disease and $25$ healthy individuals). We analyze the **response time** (in milliseconds) of the Decoding Test VIPER-NAM (Images will appear on the screen for a short period of time and then disappear. Four letters will then appear, only one of which will correspond to the letter of the object. The user must choose the correct letter as quickly as possible). The response time is collected $10$ **times** for each individual. We also "collect" the **Attention Control Scale** (ATTC, i.e., self-report scale that is designed to measure attention focusing and attention shifting). The ATTC consists of $20$ items (we will consider only one here) that are rated on a four-point Likert scale from $1$ (almost never) to $4$ (always). We also "collect" sex and age for each individual.
 
 Let's create our data:
 
