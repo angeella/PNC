@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **Exploratory Data Analysis** (EDA) is a crucial part and usually takes up most of the time. A proper and extensive EDA would reveal interesting **patterns** and help to prepare the data in a better way for the following analyses. It can be roughly summarized in three big parts:
 
-1. **Structure and summary of data**: To check the type of variables in the data set and compute location indexes (e.g., mean, median), variability indexes (e.g., variance) of the variables of interest ,
+1. **Structure and summary of data**: To check the type of variables in the data set and compute location indexes (e.g., mean, median), variability indexes (e.g., variance) of the variables of interest,
 
 2. **Exploratory plots**: Histograms, box plots, bar plots, correlogram or scatter plots (e.g., skeweness, outliers), 
 
@@ -34,9 +34,17 @@ library(tidyverse)
 We firstly analyze simulated data, then we will see a real data set example.
 
 
-Let's **create our data set**. We have $50$ subjects ($25$ with Alzheimer disease and $25$ healthy individuals). We analyze the **response time** (in milliseconds) of the Decoding Test VIPER-NAM (Images will appear on the screen for a short period of time and then disappear. Four letters will then appear, only one of which will correspond to the letter of the object. The user must choose the correct letter as quickly as possible). The response time is collected $10$ **times** for each individual. We also "collect" the **Attention Control Scale** (ATTC, i.e., self-report scale that is designed to measure attention focusing and attention shifting). The ATTC consists of $20$ items (we will consider only one here) that are rated on a four-point Likert scale from $1$ (almost never) to $4$ (always). We also "collect" sex and age for each individual.
+Let's **create our data set**. 
 
-Let's create our data:
+We have $50$ subjects ($25$ with Alzheimer disease and $25$ healthy individuals). 
+
+We analyze the **response time** (in milliseconds) of the Decoding Test VIPER-NAM: Images will appear on the screen for a short period of time and then disappear. Four letters will then appear, only one of which will correspond to the letter of the object. The user must choose the correct letter as quickly as possible. The response time is collected $10$ **times** for each individual. 
+
+We also "collect" the **Attention Control Scale** (ATTC, i.e., self-report scale that is designed to measure attention focusing and attention shifting). The ATTC consists of $20$ items (we will consider only one here) that are rated on a four-point Likert scale from $1$ (almost never) to $4$ (always). 
+
+We also "collect" sex and age for each individual.
+
+Let's create our data in `R`:
 
 :::: {.columns}
 ::: {.column width="60%"}
@@ -761,19 +769,21 @@ It is pretty obvious that our outliers are the ones from individuals `r db[db$Re
 db <- db %>% filter(ID %in% c(275, 466))
 ```
 
-> Let see our EDA after preprocessing step!
+> Task: Perfom EDA after preprocessing step! What has changed?
 
 
 # Real data example
 
-Now, we will analyze a real data set. The data comes from the study of Woodworth et al. (2018), a replication of a landmark randomized controlled trial (Seligman et al. 2005) which had suggested that positive psychology interventions, when delivered via the internet, could increase participants' happiness and decrease their depression relative to the changes effected by a placebo control. 
+Now, we will analyze a real data set. The data comes from the study of [Woodworth et al. (2018)](https://onlinelibrary.wiley.com/doi/full/10.1002/jclp.22328?casa_token=zE8XwCjqVsIAAAAA%3Aniwl-eappMbXEvpPIjXa88AbQ5F3Sh6_SqkafAXqBgyTMqV7Q4uRTP2swYSh2b0NNxOoAYSB9zwCjkA), a replication study of [Seligman et al. 2005](https://psycnet.apa.org/record/2005-08033-003)'s work which had suggested that positive psychology interventions, when delivered via the internet, could increase participants' happiness and decrease their depression relative to the changes effected by a placebo control. 
 
-Their main finding was contrary to that of the original study by Seligman et al. (2005). All interventions, including the theoretically-neutral placebo, led to significant increases in happiness and to significant reductions in depression. The effects of the positive-psychology interventions were statistically indistinguishable from those of the placebo. For more details see [here](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35#B2).
-
+Their main finding was contrary to that of the original study by [Seligman et al. 2005](https://psycnet.apa.org/record/2005-08033-003). All interventions, including the theoretically-neutral placebo, led to significant increases in happiness and to significant reductions in depression. The effects of the positive-psychology interventions were statistically indistinguishable from those of the placebo. For more details see [here](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35#B2).
 
 We have two data sets that you can find in the `S3/data` folder.
 
-The first data set (`ahi-cesd.csv`) comprises $992$ point-in-time records of the self-reported happiness and depression of 295 participants, each assigned to one of four intervention groups, in a study of the effect of web-based positive-psychology interventions on happiness and depression. Each point-in-time measurement consists of a participant's responses to the 24 items of the Authentic Happiness Inventory (AHI) and to the 20 items of the Center for Epidemiological Studies Depression (CES-D) scale. Measurements were attempted at the time of each participant's enrollment in the study and on five subsequent occasions, the last being approximately 189 days after enrollment. It contains the following variables:
+The first data set (`ahi-cesd.csv`) comprises $992$ point-in-time records of the self-reported happiness and depression of $295$ participants, each assigned to one of four intervention groups, in a study of the effect of web-based positive-psychology interventions on happiness and depression. Each point-in-time measurement consists of a participant's responses to the $24$ items of the **Authentic Happiness Inventory (AHI)** and to the $20$ items of the **Center for Epidemiological Studies Depression (CES-D) scale**. Measurements were attempted at the time of each participant's enrollment in the study and on $5$ subsequent occasions, the last being approximately $189$ days after enrollment. 
+
+
+The `ahi-cesd.csv` contains the following variables:
 
 1. `id`: Participant ID.
 
@@ -808,7 +818,7 @@ The first data set (`ahi-cesd.csv`) comprises $992$ point-in-time records of the
 
 8. `cesdTotal`: Total CES-D score.
 
-The second dataset (`participant-info.csv`) contains demographic information about the each of the 295 participants. The data are suitable for various time-series analyses and between-group comparisons. It contains the following variables:
+The second dataset (`participant-info.csv`) contains demographic information about the each of the $295$ participants. The data are suitable for various time-series analyses and between-group comparisons. It contains the following variables:
 
 1. `id`: Participant's ID.
 
@@ -861,6 +871,7 @@ knitr::include_graphics("Images/joins.png")
 db_full <- tidytable::inner_join(db, db_part, by = c("id", "intervention"))
 ```
 
+Every time you join two datasets you must check the dimensions of your new dataset:
 
 ```{r}
 dim(db)
