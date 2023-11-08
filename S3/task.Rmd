@@ -1,0 +1,16 @@
+---
+title: "EDA"
+author: "Task"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Analyze the correlation between the variables of our dataset.
+
+2. Analyze if there is any differences between different levels of socio-demographic variables for AHI total scores and CES total scores. Make some conclusions.
+
+3. Analyze the first and last occasion, divided by females and males of AHI total scores. Make some conclusions.
+
+4. Analyze the first and last occasion of CES total score for each intervention. Make some conclusions.

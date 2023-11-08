@@ -1328,6 +1328,8 @@ but considering the new random variable <span class="math inline">\(D\)</span> i
 <div id="in-r-5" class="section level3" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> In
 <code>R</code></h3>
+<p>Let’s compute the confidence interval for the difference in AHI total
+score means between male and females.</p>
 <p>To compute the confidence intervals for <span class="math inline">\(\mu_1 - \mu_2\)</span> we can use again the
 function <code>t.test</code></p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="fu">t.test</span>(db_full<span class="sc">$</span>ahiTotal[db_full<span class="sc">$</span>sex<span class="sc">==</span><span class="dv">1</span>],</span>
