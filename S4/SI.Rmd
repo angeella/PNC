@@ -668,6 +668,8 @@ As you can note, this is equals to the confidence intervals of the simple t-test
 
 ### In  `R`
 
+Let's compute the confidence interval for the difference in AHI total score means between male and females.
+
 To compute the confidence intervals for $\mu_1 - \mu_2$ we can use again the function  `t.test`
 
 ```{r}
