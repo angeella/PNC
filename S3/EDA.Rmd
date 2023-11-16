@@ -782,6 +782,7 @@ We have two data sets that you can find in the `S3/data` folder.
 
 The first data set (`ahi-cesd.csv`) comprises $992$ point-in-time records of the self-reported happiness and depression of $295$ participants, each assigned to one of four intervention groups, in a study of the effect of web-based positive-psychology interventions on happiness and depression. Each point-in-time measurement consists of a participant's responses to the $24$ items of the **Authentic Happiness Inventory (AHI)** and to the $20$ items of the **Center for Epidemiological Studies Depression (CES-D) scale**. Measurements were attempted at the time of each participant's enrollment in the study and on $5$ subsequent occasions, the last being approximately $189$ days after enrollment. 
 
+A total AHI score is obtained by summing the scores for the $24$ items. A total CES-D score is obtained by first reversing the scores of items $4$, $8$, $12$ and $16$, and then summing the scores for the $20$ items.
 
 The `ahi-cesd.csv` contains the following variables:
 
@@ -966,7 +967,7 @@ db_full %>%
            colour=intervention), size=1.5) 
 ```
 
-or considering directly the global mean for each occasion and interventation with corresponding $0.95$ confidence intervals:
+or considering directly the global mean for each occasion and intervention with corresponding $0.95$ confidence intervals:
 
 ```{r}
 db_full %>%
@@ -974,8 +975,8 @@ db_full %>%
   mutate(mean_ahiTotal = mean(ahiTotal),
          sd_ahiTotal=sd(ahiTotal),
          n_ahiTotal=length(ahiTotal),
-         upper=mean_ahiTotal+sd_ahiTotal/sqrt(n_ahiTotal),
-         lower=mean_ahiTotal-sd_ahiTotal/sqrt(n_ahiTotal)) %>%
+         upper=mean_ahiTotal+2*sd_ahiTotal/sqrt(n_ahiTotal),
+         lower=mean_ahiTotal-2*sd_ahiTotal/sqrt(n_ahiTotal)) %>%
 ggplot() + 
     geom_line(aes(x=occasion, 
            y=mean_ahiTotal, 

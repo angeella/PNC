@@ -661,7 +661,7 @@ $$s_D^2 = \dfrac{1}{n-1} \sum_{i}^{n} (D_i - \bar{D})^2.$$
 Finally the confidence intervals at level $1-\alpha$ equals:
 
 $$
-IC_{1-\alpha}(\mu_d) = [\bar{D} + t_{1alpha/2,n-1} \,\, \sigma_{d}\sqrt{n}, \bar{D} + t_{1- \alpha/2, } \,\, \sigma_{d}/\sqrt{n} ]
+IC_{1-\alpha}(\mu_d) = [\bar{D} + t_{\alpha/2,n-1} \,\, \sigma_{d}\sqrt{n}, \bar{D} + t_{1- \alpha/2, } \,\, \sigma_{d}/\sqrt{n} ]
 $$
 As you can note, this is equals to the confidence intervals of the simple t-test for the mean $\mu$ but considering the new random variable $D$ instead of $X$.
 
