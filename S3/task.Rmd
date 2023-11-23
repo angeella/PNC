@@ -7,10 +7,67 @@ author: "Task"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+load("../S4/data/db_full.RData")
+library(tidyverse)
+```
+
+
 1. Analyze the correlation between the variables of our dataset.
+
+```{r}
+var_numeric <- c("elapsed.days",  "age", "ahiTotal", "cesdTotal")
+
+cor(db_full %>% select(var_numeric))
+```
+Strong correlation between the scales (negative).
 
 2. Analyze if there is any differences between different levels of socio-demographic variables for AHI total scores and CES total scores. Make some conclusions.
 
+```{r}
+db_full %>%
+  ggplot() +
+  geom_boxplot(aes(x = income, y = ahiTotal))
+```
+```{r}
+ggplot(db_full) +
+  geom_smooth(aes(x = cesdTotal, y = ahiTotal, group = sex, col = sex))
+```
+```{r}
+db_full %>%
+  ggplot() +
+  geom_boxplot(aes(x = income, y = ahiTotal)) + facet_wrap(~sex)
+```
+```{r}
+db_full %>%
+  ggplot() +
+  geom_boxplot(aes(x = income:sex, y = ahiTotal)) 
+```
+
+
 3. Analyze the first and last occasion, divided by females and males of AHI total scores. Make some conclusions.
 
+```{r}
+db_full %>%
+  select(occasion, ahiTotal, sex) %>%
+  filter(occasion %in% c(0, 5)) %>%
+  group_by(sex, occasion) %>%
+  mutate(mean_ahiTotal = mean(ahiTotal)) %>%
+ggplot() + 
+    geom_line(aes(x=occasion, 
+           y=mean_ahiTotal, 
+           group=sex,
+           colour=sex), size=1.5)
+```
+
+
 4. Analyze the first and last occasion of CES total score for each intervention. Make some conclusions.
+
+
+```{r}
+db_full %>%
+  select(occasion, cesdTotal, intervention) %>%
+  filter(occasion %in% c(0, 5)) %>%
+  ggplot() +
+  geom_boxplot(aes(x = occasion:intervention, y = cesdTotal, col = intervention))
+```

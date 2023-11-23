@@ -830,7 +830,7 @@ The second dataset (`participant-info.csv`) contains demographic information abo
     * `3` = Gratitude visit,
     * `4` = Recording early memories (control condition).
 
-3. `sex`: `1` for female, `2` for female
+3. `sex`: `1` for female, `2` for male
 
 4. `age` : Participant's age (in years).
 
