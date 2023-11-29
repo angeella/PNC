@@ -480,11 +480,11 @@ We can note $\bar{X}_1 - \bar{X}_2 \approx \mathcal{N}(\mu_1 -\mu_2, \sigma^2_{\
 
 Let  consider again $X$ follow $f(x; \theta)$, and consider a random sample $(X_1, \dots, X_n)$ with an **estimator** $T_n = T(X_1, \dots, X_n)$. Let $t_n = t(x_1, \dots, x_n)$ be the **estimate** of $\theta$. In reality, no matter how accurate the estimator $T_n$ is, the probability that it takes on a value exactly equal to $\theta$ is an event nearly impossible to occur.
 
-A single number, $t_n$ (i.e., point estimate), does not provide any indication of the probabilities that the estimate takes on a value close to the parameter $\theta$. The **confidence interval estimation** overcomes this inconvenience. Confidence interval estimation, or confidence interval, allows us to establish a **range of plausible estimates** associated with a fixed level of *confidence*. 
+A single number, $t_n$ (i.e., point estimate), does not provide any indication on the probabilities that the estimate takes on a value close to the parameter $\theta$. The **confidence interval estimation** overcomes this inconvenience. Confidence interval estimation, or confidence interval, allows us to establish a **range of plausible estimates** associated with a fixed level of *confidence*. 
 
-In other word, It allows us to define a **level of confidence in our population parameter estimate gleaned from a sample**. 
+In other word, it allows us to define a **level of confidence in our population parameter estimate gleaned from a sample**. 
 
-> But beware `r emo::ji("boom")`, people will sometimes state this as *"... there is a $95\%$ chance that the population mean falls between such and such values .."* which is problematic since it implies that the population mean is a random variable when in fact it's not. The confidence interval reminds us that the chances are in the sampling and not the population parameter.
+> But beware `r emo::ji("boom")`, people will sometimes state this as *"... there is a $95\%$ chance that the population mean falls between such and such values ..."* which is problematic since it implies that the population mean is a random variable when in fact it's not. The confidence interval reminds us that the chances are in the sampling and not the population parameter.
 
 Confidence interval estimation is often calculated based on the point estimate by adding and subtracting a value known as the **margin of error**:
 
@@ -498,14 +498,15 @@ $$\text{If}\quad  X \sim \mathcal{N}(\mu, \sigma^2) \quad \text{then} \quad Z = 
 considering a confidence level equals $1-\alpha$ for example. Considering $(\bar{X} - \mu)/(\sigma/\sqrt{n}) \sim \mathcal{N}(0,1)$ we know that:
 
 
-$$\Pr( z_{\alpha/2} \le (\bar{X} - \mu)/(\sigma/\sqrt{n}) \le z_{1-\alpha/2}) = 1-\alpha$$
+$$\Pr\left( z_{\alpha/2} \le \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \le z_{1-\alpha/2}\right) = 1-\alpha$$
 where $z_b$ is the quantile at level $b$ of a normal standard distribution. Rewrite everything for $\mu$ we have the **confidence interval for $\mu$ at level $1-\alpha$**:
 
 $$
-IC_{1-\alpha}(\mu) = (\mu + z_{\alpha/2} \,\, \sigma / \sqrt{n}, \mu + z_{1-\alpha/2} \,\, \sigma / \sqrt{n} )
+IC_{1-\alpha}(\mu) = \left[\hat{\mu} - z_{1-\alpha/2} \,\, \frac{\sigma}{\sqrt{n}},\;\; \hat{\mu} + z_{1-\alpha/2} \,\, \frac{\sigma}{\sqrt{n}} \right]
 $$
+where $\hat{\mu}=\bar{x}$.
 
-In other words, if we estimate a lot of times the confidence intervals from random samples, the $(1-\alpha)\%$ of the times, they includes the true value of the population parameter.
+In other words, if we estimate a lot of times the confidence intervals from random samples, the $(1-\alpha)\%$ of the times, they include the true value of the population parameter.
 
 Let's see in `R` this concept by simulations. Here, we replicate $200$ times the sampling procedure fixing $n=30$. For each sample, we compute the confidence interval at level $0.95$ just defined above. 
 
@@ -555,7 +556,7 @@ ggplot(out,
 If we increase the number of samples, the estimated coverage goes to the true one (i.e., $1-\alpha$). Let's try it!
 
 
-You can joke with these simulations [here](https://shiny.rit.albany.edu/stat/confidence/)!
+You can play with these simulations [here](https://shiny.rit.albany.edu/stat/confidence/)!
 
 
 In `R` everything is very simple, there are basic `R` commands to compute confidence intervals for $\mu$, $\pi$ and $\mu_1 - \mu_2$ `r emo::ji("smile")`.
@@ -566,17 +567,21 @@ We already saw before the confidence intervals for the mean $\mu$:
 
 
 $$
-IC_{1-\alpha}(\mu) = (\hat{\mu} + z_{\alpha/2} \,\, \sigma / \sqrt{n}, \hat{\mu} + z_{1-\alpha/2} \,\, \sigma / \sqrt{n} )
+IC_{1-\alpha}(\mu) = \left[\hat{\mu} - z_{1-\alpha/2} \,\, \frac{\sigma}{\sqrt{n}},\;\; \hat{\mu} + z_{1-\alpha/2} \,\, \frac{\sigma}{\sqrt{n}} \right]
 $$
 
 However, most of times the population variance $\sigma^2$ is **unknown**. We then estimate $\sigma^2$ by using a proper estimator:
 
-$$\hat{\sigma}^2_n = s^2_x/n$$
+$$\hat{\sigma}^2_n = s^2_X/n$$
 
-where $s^2_x$ is the **sample standard deviation** and $n$ the sample size. This introduces an additional level of uncertainty and also a complication. **The complication arises from the fact that for small samples, sample estimates of the standard deviation tend to be biased (lower) compared to the true population standard deviation.**
+where
+
+$$s_X=\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(X-\bar{X})^2}$$
+
+is the **sample standard deviation** and $n$ the sample size. This introduces an additional level of uncertainty and also a complication. **The complication arises from the fact that for small samples, sample estimates of the standard deviation tend to be biased (lower) compared to the true population standard deviation.**
 
 
-Doing that we must consider instead of $z_{b}$ (i.e., quantile at level $b$ of $\mathcal{N}(0,1)$) the quantile of another distribution: The **"Student's t-distribution"** which is the appropriate probability distribution to use when we want to estimate the sampling distribution of the mean of a normally distributed variable under two common conditions: 
+Doing that we must consider instead of $z_{b}$ (i.e., quantile at level $b$ of $\mathcal{N}(0,1)$) the quantile of another distribution: the **"Student's t-distribution"** which is the appropriate probability distribution to use when we want to estimate the sampling distribution of the mean of a normally distributed variable under two common conditions: 
 
 - when sample sizes are small (which is very frequent) 
 - when the standard deviation of the population from which we are sampling is unknown (which is almost always the case). 
@@ -596,15 +601,15 @@ that automatically considers the Student's t-distribution. We can fix the level 
 
 ## Proportion ($\pi$)
 
-Let $(X_1, \dots, X_n)$ be a random sample from $X \sim Ber(\pi)$. As saw before, an estimator for $\pi$ is given by the **sample proportion**, which coincides with the sample mean. If the sample is large, the distribution of the sample proportion is approximately normal with mean and standard deviation, i.e.:
+Let $(X_1, \dots, X_n)$ be a random sample from $X \sim Ber(\pi)$. As seen before, an estimator for $\pi$ is given by the **sample proportion**, which coincides with the sample mean. If the sample is large, the distribution of the sample proportion is approximately normal with mean $\pi$ and standard deviation $\pi (1-\pi)/n$, i.e.:
 
 $$\hat{\pi} \approx \mathcal{N}(\pi, \pi (1-\pi)/n)$$
 
-The confidence interval, for the proportion of a population is:
+The confidence interval for the proportion of a population is:
 
 
 $$
-IC_{1-\alpha}(\pi) = [\hat{\pi} + z_{\alpha/2} \,\, \sqrt{(\hat{\pi}(1-\hat{\pi}))/n}, \pi + z_{1-\alpha/2} \,\, \sqrt{(\hat{\pi}(1-\hat{\pi}))/n} )]
+IC_{1-\alpha}(\pi) = \left[\hat{\pi} - z_{1-\alpha/2} \,\, \sqrt{\frac{\hat{\pi}(1-\hat{\pi})}{n}},\;\; \pi + z_{1-\alpha/2} \,\, \sqrt{\frac{\hat{\pi}(1-\hat{\pi})}{n}} )\right]
 $$
 
 ### In  `R`
@@ -624,53 +629,58 @@ When the difference in population means is analyzed, we must think about the typ
  - Design with **independent** random samples.
  - **Paired** sampling design.
 
-These two sampling designs result in differences in the methods used to compare the two populations. However, we will see that in the paired case, we are simply analyzing a new random variables $Y$ which is the difference between $X_1$ and $X_2$.
+These two sampling designs result in differences in the methods used to compare the two populations. However, we will see that in the paired case, we are simply analyzing a new random variable $D$ which is the difference between $X_1$ and $X_2$.
 
-Let's start considering a random sample of $n_1$ size from population $1$ and a random sample of $n_2$ size from population $2$ independent from $1$. Before we saw that the difference $\bar{X}_1 - \bar{X}_2$ is the point estimator of the difference between the means of the two populations $\mu_1$, $\mu_2$ and
+### Independent samples
+
+Let's start considering a random sample of size $n_1$ from population $1$ and a random sample of size $n_2$ from population $2$ which is independent from $1$. Before we saw that the difference $\bar{X}_1 - \bar{X}_2$ is the point estimator of the difference between the means of the two populations $\mu_1$, $\mu_2$ and
 
   - $\bar{X}_1 - \bar{X}_2 \sim \mathcal{N}(\mu_1 -\mu_2, \sigma^2_{\bar{X}_1 - \bar{X}_2})$ if $X_1 \sim \mathcal{N}(\mu_1, \sigma^2_1)$ and  $X_2 \sim \mathcal{N}(\mu_2, \sigma^2_2)$
 
-  - $\bar{X}_1 - \bar{X}_2 \approx \mathcal{N}(\mu_1 -\mu_2, \sigma^2_{\bar{X}_1 - \bar{X}_2})$ if $n_1$ and $n_2$ sufficiently large.
+  - $\bar{X}_1 - \bar{X}_2 \approx \mathcal{N}(\mu_1 -\mu_2, \sigma^2_{\bar{X}_1 - \bar{X}_2})$ if $n_1$ and $n_2$ are sufficiently large.
 
-Where $\sigma^2_{\bar{X}_1 - \bar{X}_2}$ is the variance of the point estimator $\bar{X}_1 - \bar{X}_2$, which describes its sampling variability.
+Here $\sigma^2_{\bar{X}_1 - \bar{X}_2}$ is the variance of the point estimator $\bar{X}_1 - \bar{X}_2$, which describes its sampling variability.
 
 Therefore the confidence interval for $\mu_1 -\mu_2$ is defined as:
 
 $$
-IC_{1-\alpha}(\mu_1 - \mu_2) = (\bar{X}_1 - \bar{X}_2 + z_{\alpha/2} \,\, \sqrt{\sigma^2_{\bar{X}_1 - \bar{X}_2}}, \bar{X}_1 - \bar{X}_2 + z_{1-\alpha/2} \,\, \sqrt{\sigma^2_{\bar{X}_1 - \bar{X}_2}} )
+IC_{1-\alpha}(\mu_1 - \mu_2) = \left[\bar{X}_1 - \bar{X}_2 - z_{1-\alpha/2} \,\, \sqrt{\sigma^2_{\bar{X}_1 - \bar{X}_2}},\;\; \bar{X}_1 - \bar{X}_2 + z_{1-\alpha/2} \,\, \sqrt{\sigma^2_{\bar{X}_1 - \bar{X}_2}} \right]
 $$
-Again, we don't know $\sigma^2_{\bar{X}_1 - \bar{X}_2}$ and we must estimate it in some way. Here, there are two possibilities:
 
-- Assuming $\sigma^2_1 = \sigma^2_2$: $\quad \sigma^2_{\bar{X}_1 - \bar{X}_2} = \dfrac{\sigma^2_1}{n_1} + \dfrac{\sigma^2_2}{n_2}$
+Again, often we don't know $\sigma^2_{\bar{X}_1 - \bar{X}_2}$, and we must estimate it in some way. Here, there are two possibilities:
+
+- Assuming $\sigma^2_1 = \sigma^2_2=\sigma^2$: $\quad \sigma^2_{\bar{X}_1 - \bar{X}_2} = \sigma^2\left(\dfrac{1}{n_1} + \dfrac{1}{n_2}\right)$
 - Assuming $\sigma^2_1 \ne \sigma^2_2$: $\quad \sigma^2_{\bar{X}_1 - \bar{X}_2} = \dfrac{\sigma^2_1 (n_1-1) + \sigma_2^2 (n_2-2)}{n_1+n_2-2}$
 
-As in the case of a single mean $\mu$, if we use an estimate of $\sigma_1^2$ and $\sigma^2_2$ instead of the true population value inside the confidence interval formulation, we must consider the **quantile of the student t distribution** instead of the standard normal one. In this case the degrees of freedom $df$ equals $n_1+n_2 -2$ for the first case, while the $df$ in the first case has a more complicated formula that we will not consider here.
+As in the case of a single mean $\mu$, if we use an estimate of $\sigma_1^2$ and $\sigma^2_2$ instead of the true population value inside the confidence interval formulation, we must consider the **quantile of the student t distribution** instead of the standard normal one. In this case the degrees of freedom $df$ are equal to $n_1+n_2 -2$ for the first case, while the $df$ in the first case has a more complicated formula that we will not consider here.
 
+
+### Paired samples
 
 Let's now see the last case, i.e., we have a paired sampling design. A random sample is selected from one population, and each statistical unit provides **two observations**. Each pair of observations shares a common element: **the individual on whom the measurements were taken**. The two observations on the same subject are **not independent** because they are influenced by common individual factors.
 
 
 Given $X_1 \sim \mathcal{N}(\mu_1, \sigma_1^2)$ and $X_2 \sim \mathcal{N}(\mu_2, \sigma_2^2)$, when paired sampling is used, we consider the random variable *"difference"* as: 
 
-$$D = X_1 - X_2 \sim \mathcal{N}(\mu_1 - \mu_2, \sigma^2_{\mu_1 - \mu_2})$$.
+$$D = X_1 - X_2 \sim \mathcal{N}(\mu_1 - \mu_2, \sigma^2_{\bar{X}_1 - \bar{X}_2})$$.
 
 
-The parameter of interest in this case becomes the difference of means $\mu_d = \mu_1 - \mu_2$. We then consider the estimator $\bar{D} = \sum_{i=1}^{n} \dfrac{X_{1i} - X_{2i}}{n}$. Since also here we do not know $\sigma^2_{D} = \sigma^2_{\mu_1 - \mu_2}$ we plug-in the estimator
+The parameter of interest in this case becomes the difference of means $\mu_D = \mu_1 - \mu_2$. We then consider the estimator $\bar{D} = \sum_{i=1}^{n} \dfrac{X_{1i} - X_{2i}}{n}$. Since also here we do not know $\sigma^2_{D} = \sigma^2_{\bar{X}_1 - \bar{X}_2}$ we plug-in the estimator
 
-$$s_D^2 = \dfrac{1}{n-1} \sum_{i}^{n} (D_i - \bar{D})^2.$$
+$$s_D^2 = \dfrac{1}{n-1} \sum_{i}^{n} (D_i - \bar{D})^2$$
 Finally the confidence intervals at level $1-\alpha$ equals:
 
 $$
-IC_{1-\alpha}(\mu_d) = [\bar{D} + t_{\alpha/2,n-1} \,\, \sigma_{d}\sqrt{n}, \bar{D} + t_{1- \alpha/2, } \,\, \sigma_{d}/\sqrt{n} ]
+IC_{1-\alpha}(\mu_d) = \left[\bar{D} - t_{\alpha/2,n-1} \,\, \frac{\sigma_{D}}{\sqrt{n}},\;\; \bar{D} + t_{1- \alpha/2, } \,\, \frac{\sigma_{D}}{\sqrt{n}} \right]
 $$
-As you can note, this is equals to the confidence intervals of the simple t-test for the mean $\mu$ but considering the new random variable $D$ instead of $X$.
+As you can note, this is equal to the confidence interval of the simple t-test for the mean $\mu$ but considering the new random variable $D$ instead of $X$.
 
 
 ### In  `R`
 
 Let's compute the confidence interval for the difference in AHI total score means between male and females.
 
-To compute the confidence intervals for $\mu_1 - \mu_2$ we can use again the function  `t.test`
+To compute the confidence interval for $\mu_1 - \mu_2$ we can use again the function  `t.test`
 
 ```{r}
 t.test(db_full$ahiTotal[db_full$sex==1],
@@ -680,7 +690,7 @@ t.test(db_full$ahiTotal[db_full$sex==1],
        var.equal = TRUE)
 ```
 
-you must specify if the observations are paired or not in the `paired` argument, and if we must assume that the two variances are equals in the `var.equal` argument. 
+You must specify if the observations are paired or not in the `paired` argument, and if we must assume that the two variances are equal in the `var.equal` argument. 
 
 Here, an example of paired t-test:
 
@@ -700,7 +710,7 @@ t.test(db01$ahiTotal[db01$occasion==0],
 
 Let's see an analysis using our `db_full` dataset. We want to estimate the difference in mean between the first and last occurrences for each type of interventions. So, we want to plot these differences in mean and their corresponding confidence intervals at level $0.9$.
 
-First of all, let's compute the difference of AHI total scores between the first and last occurrences for each type of interventions.
+First of all, let's compute the difference of AHI total scores between the first and last occurrences for each type of intervention.
 
 ```{r}
 db <- db_full %>%
