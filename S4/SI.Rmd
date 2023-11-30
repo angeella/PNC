@@ -572,13 +572,9 @@ $$
 
 However, most of times the population variance $\sigma^2$ is **unknown**. We then estimate $\sigma^2$ by using a proper estimator:
 
-$$\hat{\sigma}^2_n = s^2_X/n$$
+$$s^2=\frac{1}{n-1}\sum_{i=1}^{n}(X_i-\bar{X})^2$$
 
-where
-
-$$s_X=\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(X-\bar{X})^2}$$
-
-is the **sample standard deviation** and $n$ the sample size. This introduces an additional level of uncertainty and also a complication. **The complication arises from the fact that for small samples, sample estimates of the standard deviation tend to be biased (lower) compared to the true population standard deviation.**
+where $s$ is the **sample standard deviation**. The variance of the mean, $\sigma^2_{\bar{X}}=\sigma^2/n$, is then estimated with $s^2_{\bar{X}}=s^2/n$. This introduces an additional level of uncertainty and also a complication. **The complication arises from the fact that for small samples, sample estimates of the standard deviation tend to be biased (lower) compared to the true population standard deviation.**
 
 
 Doing that we must consider instead of $z_{b}$ (i.e., quantile at level $b$ of $\mathcal{N}(0,1)$) the quantile of another distribution: the **"Student's t-distribution"** which is the appropriate probability distribution to use when we want to estimate the sampling distribution of the mean of a normally distributed variable under two common conditions: 

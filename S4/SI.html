@@ -1166,14 +1166,15 @@ IC_{1-\alpha}(\mu) = \left[\hat{\mu} - z_{1-\alpha/2} \,\,
 <p>However, most of times the population variance <span class="math inline">\(\sigma^2\)</span> is <strong>unknown</strong>. We
 then estimate <span class="math inline">\(\sigma^2\)</span> by using a
 proper estimator:</p>
-<p><span class="math display">\[\hat{\sigma}^2_n = s^2_X/n\]</span></p>
-<p>where</p>
-<p><span class="math display">\[s_X=\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(X-\bar{X})^2}\]</span></p>
-<p>is the <strong>sample standard deviation</strong> and <span class="math inline">\(n\)</span> the sample size. This introduces an
-additional level of uncertainty and also a complication. <strong>The
-complication arises from the fact that for small samples, sample
-estimates of the standard deviation tend to be biased (lower) compared
-to the true population standard deviation.</strong></p>
+<p><span class="math display">\[s^2=\frac{1}{n-1}\sum_{i=1}^{n}(X_i-\bar{X})^2\]</span></p>
+<p>where <span class="math inline">\(s\)</span> is the <strong>sample
+standard deviation</strong>. The variance of the mean, <span class="math inline">\(\sigma^2_{\bar{X}}=\sigma^2/n\)</span>, is then
+estimated with <span class="math inline">\(s^2_{\bar{X}}=s^2/n\)</span>.
+This introduces an additional level of uncertainty and also a
+complication. <strong>The complication arises from the fact that for
+small samples, sample estimates of the standard deviation tend to be
+biased (lower) compared to the true population standard
+deviation.</strong></p>
 <p>Doing that we must consider instead of <span class="math inline">\(z_{b}\)</span> (i.e., quantile at level <span class="math inline">\(b\)</span> of <span class="math inline">\(\mathcal{N}(0,1)\)</span>) the quantile of another
 distribution: the <strong>“Student’s t-distribution”</strong> which is
 the appropriate probability distribution to use when we want to estimate
